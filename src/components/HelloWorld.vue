@@ -2,6 +2,7 @@
   <v-container>
     <v-row class="text-center">
       <v-col cols="12">
+         <VueTrix v-model="editorContent" placeholder="Enter content" localStorage/>
         <v-img
           :src="require('../assets/logo.svg')"
           class="my-3"
@@ -92,10 +93,15 @@
 </template>
 
 <script>
+import VueTrix from 'vue-trix';
+
   export default {
     name: 'HelloWorld',
-
+    components: {
+      VueTrix
+    },
     data: () => ({
+      editorContent: '',
       ecosystem: [
         {
           text: 'vuetify-loader',
