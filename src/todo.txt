@@ -1,0 +1,14 @@
+- Validation on add source
+- Validation on full form
+- Remove Trix buttons
+
+- Add extra functions to Trix:
+  - Remove line breaks
+  - Spell Check
+  - Abbreviation Check
+  - Decapitalize selection
+  - Insert quote break [...]
+
+- Functions for document creation:
+  - Create summaries list. Combine sources and page numbers with days etc.
+
