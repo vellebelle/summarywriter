@@ -8,7 +8,9 @@
     </div>
 
     <v-spacer></v-spacer>
-
+<v-btn to="/collection" text>
+      Collection
+    </v-btn>
     <v-btn to="/add" text>
       add
     </v-btn>
