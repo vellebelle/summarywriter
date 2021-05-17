@@ -16,15 +16,22 @@
             <v-select :items="categories" label="Kategori" v-model="category"></v-select>
           </v-col>
         </v-row>
-
-        <VueTrix v-model="editorContent" placeholder="Skriv resumé..." />
+        
+        <div class="custom-toolbar mb-3">
+          <v-btn @click="insertQuoteBreak" class="mr-3" small>[...]</v-btn>
+          <v-btn @click="removeLineBreaks" class="mr-3" small>Remove line breaks</v-btn>
+          <v-btn @click="decapitalizeSelection" small>Decapitalize</v-btn>
+        </div>
+        
+        <VueTrix v-model="editorContent" placeholder="Skriv resumé..." ref="editor"/>
 
         <v-row align="center">
           <v-col cols="4">
             <v-select
-              :items="papers"
+              :items="media"
               label="Vælg avis"
               v-model="selectedPaper"
+              :rules="mediumRules"
             ></v-select>
           </v-col>
           <v-col cols="4">
@@ -66,13 +73,13 @@
 
 <script>
 import VueTrix from "vue-trix";
-
 export default {
   name: "AddSummary",
   components: {
     VueTrix,
   },
   data: () => ({
+    editor: null,
     editorContent: "",
     profile: "andre",
     title: "",
@@ -98,7 +105,7 @@ export default {
       "Migration",
       "Handel",
     ],
-    papers: [
+    media: [
       "Politiken",
       "Berlingske",
       "BT",
@@ -114,7 +121,10 @@ export default {
     weekdays: ["(Ingen)", "Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag", "Lørdag", "Søndag"],
     selectedPaper: "",
     sources: [],
-    summaries: []
+    summaries: [],
+    mediumRules: [
+      v => !!v || "Vælg medie"
+    ]
   }),
   methods: {
     addSource() {
@@ -148,6 +158,24 @@ export default {
       this.editorContent = "";
       this.sources = [];
     },
+    insertQuoteBreak() {
+      // this.$refs.editor.$refs.trix.editor.setSelectedRange([0, 0]);
+      // this.$refs.editor.$refs.trix.editor.insertString("[...]");
+      this.editor.insertString("[...]");
+    },
+    removeLineBreaks() {
+      console.log("Remove Line Breaks in selected text");
+    },
+    decapitalizeSelection() {
+
+      const range = this.editor.getSelectedRange();
+      const selection = this.editor.getDocument().getStringAtRange(range);
+      this.editor.setSelectedRange(range);
+
+      this.editor.insertString(selection.toLowerCase());
+      this.editor.insertHTML('<em>Hello</em>');
+      console.log(range, selection);
+    },
     onTrixChange(event) {
       console.log("Changed", event);
     },
@@ -156,6 +184,7 @@ export default {
     },
   },
   mounted() {
+    this.editor = this.$refs.editor.$refs.trix.editor;
     document.addEventListener("trix-change", this.onTrixChange);
     document.addEventListener("trix-paste", this.onTrixPaste);
   },
@@ -169,9 +198,17 @@ export default {
 <style>
 .trix-content {
   height: 350px;
+  overflow-y: auto;
 }
 .sources-list ul {
   list-style-type: none;
   padding: 0;
+}
+#trix-toolbar-1 {
+  display: none;
+}
+em {
+  background: yellow;
+  font-style: normal;
 }
 </style>
