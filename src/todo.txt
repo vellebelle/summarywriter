@@ -9,3 +9,45 @@
 - Functions for document creation:
   - Create summaries list. Combine sources and page numbers with days etc.
 
+
+Example 1: No days
+[
+  { medium: "BT", pageNumber: "6", day: null },
+  { medium: "BT", pageNumber: "12", day: null },
+  { medium: "Information", pageNumber: "6", day: null },
+  { medium: "Jyllands-Posten", pageNumber: "15", day: null },
+  { medium: "Jyllands-Posten", pageNumber: "8", day: null },
+  { medium: "Jyllands-Posten", pageNumber: "32", day: null },
+  { medium: "Berlingske", pageNumber: "12", day: null },
+  { medium: "Altinget", pageNumber: null, day: null },
+]
+
+Desired output:
+Type = String
+
+BT, s. 6, 12; Information, s. 6; Jyllands-Posten, s. 8, 15, 32; Berlingske, s. 12; Altinget
+
+Example 2: days
+[
+  { medium: "BT", pageNumber: "6", day: "lørdag" },
+  { medium: "BT", pageNumber: "12", day: "mandag" },
+  { medium: "Information", pageNumber: "6", day: "søndag" },
+  { medium: "Jyllands-Posten", pageNumber: "15", day: "mandag" },
+  { medium: "Jyllands-Posten", pageNumber: "8", day: "mandag" },
+  { medium: "Jyllands-Posten", pageNumber: "32", day: "lørdag" },
+  { medium: "Berlingske", pageNumber: "12", day: "søndag" },
+  { medium: "Altinget", pageNumber: null, day: "søndag" },
+]
+
+
+Boil down to:
+
+Medium:  BT.                Information     Jyllands-Posten            Berlingske    Altinget
+Day:     lørdag, mandag     søndag          mandag, mandag, lørdag     søndag        søndag
+Side:    6, 12              6               15, 8, 32                  12            null
+
+
+
+Desired output:
+Type = String
+BT, lørdag, s. 6, mandag, s. 12; Information, mandag, s. 6; Jyllands-Posten, lørdag, s. 32; mandag, s. 8, 15; Berlingske, søndag, s. 12; Altinget, mandag 
