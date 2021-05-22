@@ -27,7 +27,7 @@
             </v-list-item>
           </template>
         </v-list>
-        <v-btn @click="sortSources(testSources1)">Sort Test</v-btn>
+        <v-btn @click="sortSources(testSources2)">Sort Test</v-btn>
       </v-col>
       <v-col>
         <div v-if="currentlySelectedSummary">
@@ -42,7 +42,7 @@
                 currentlySelectedSummary.sources.length > 1
                   ? "Kilder: "
                   : "Kilde: "
-              }}{{ currentlySelectedSummary.sources }}
+              }}{{ sortSources(currentlySelectedSummary.sources) }}
             </p>
           </div>
         </div>
@@ -52,7 +52,6 @@
 </template>
 <script>
 import collection from "../assets/test-data";
-import _ from 'lodash';
 export default {
   name: "Collection",
   data() {
@@ -91,42 +90,38 @@ export default {
     editSummary() {
       console.log("Edit Summary");
     },
-    sortSources(posts) {
-      let summary = "";
-      const groupedByMedium = _.groupBy(posts, "medium");
-      _.map(groupedByMedium, (posts, medium) => {
-        if (summary.length > 0) {
-          summary += "; ";
-        }
+    sortSources(arr) {
 
-        summary += medium;
-
-        let postsGroupedDay = _.groupBy(posts, "day");
-
-        _.map(postsGroupedDay, (dayPosts, day) => {
-          const pages = _.join(
-            _.sortedUniq(_.map(dayPosts, (p) => p.pageNumber)),
-            ", "
-          );
-
-          if (summary.length > 0 && (pages.length > 0 || day !== "null")) {
-            summary += ", ";
-          }
-
-          if (day !== "null") {
-            summary += day;
-            if (pages.length > 0) {
-              summary += ", ";
-            }
-          }
-
-          if (pages.length > 0) {
-            summary += `page ${pages}`;
-          }
-        });
-      });
-      console.log(summary);
-      return summary;
+        const sortedSources = Object.entries(
+          arr.reduce((acc, reference) => {
+            // Map the attributes into a hieararchy.
+            ((acc[reference.medium] ||= {})[reference.day || ""] ||= []).push(
+              reference.pageNumber
+            );
+            return acc;
+          }, {})
+        )
+          .map(([medium, references]) => {
+            // Handle each medium separately.
+            const details = Object.entries(references)
+              .map(([day, pageNumbers]) => {
+                // Sort the page numbers ignoring nulls.
+                pageNumbers = pageNumbers
+                  .filter((v) => v)
+                  .sort((a, b) => a - b);
+                return (
+                  day +
+                  (pageNumbers.length
+                    ? (day ? ", " : "") + "s. " + pageNumbers.join(", ")
+                    : "")
+                );
+              })
+              .join(", ");
+            return medium + (details ? ", " + details : "");
+          })
+          .join("; ");
+          
+          return sortedSources;
     },
   },
   filters: {
@@ -138,4 +133,3 @@ export default {
 };
 </script>
 <style></style>
-
