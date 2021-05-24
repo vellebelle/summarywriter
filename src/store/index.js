@@ -12,6 +12,9 @@ export default new Vuex.Store({
   },
   actions: {
   },
-  modules: {
+  getters: {
+    getSummaryCollections(state) {
+      return state.summaryCollectionData;
+    } 
   }
 })
