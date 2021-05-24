@@ -1,20 +1,25 @@
 <template>
   <v-container>
-    <h1 class="mb-5">All Collections</h1>
+    <h1 class="mb-5">Summary Collections</h1>
+    <v-btn fab dark color="indigo" fixed right bottom>
+      <v-icon dark>
+        mdi-plus
+      </v-icon>
+    </v-btn>
     <v-row>
+      
       <v-col v-for="collection in summaryCollections" :key="collection.title">
-        <v-card>
+        
+        <v-card color="blue-grey" dark elevation="2">
           <v-card-title v-text="collection.title"></v-card-title>
           <v-card-text>
-            <v-row>
-              <v-col> Dato: {{ collection.date }} </v-col>
-              <v-col> Antal: {{ collection.summaries.length }} </v-col>
-            </v-row>
+            <div>Dato: {{ collection.date }}</div>
+            <div>Antal: {{ collection.summaries.length }}</div>
           </v-card-text>
 
           <v-card-actions>
-             <v-btn text>
-              <v-icon  class="mr-2">mdi-download</v-icon>
+            <v-btn text>
+              <v-icon class="mr-2">mdi-download</v-icon>
               Download
             </v-btn>
             <v-spacer></v-spacer>
