@@ -104,11 +104,16 @@ export default {
       "Landbrug",
       "Migration",
       "Handel",
+      "Kultur",
+      "Konkurrence",
+      "Sundhed",
+      "Klima",
+      "Administration"
     ],
     media: [
       "Politiken",
       "Berlingske",
-      "BT",
+      "B.T.",
       "Jyllands-Posten",
       "Kristeligt Dagblad",
       "Information",
@@ -173,7 +178,6 @@ export default {
       this.editor.setSelectedRange(range);
 
       this.editor.insertString(selection.toLowerCase());
-      this.editor.insertHTML('<em>Hello</em>');
       console.log(range, selection);
     },
     onTrixChange(event) {

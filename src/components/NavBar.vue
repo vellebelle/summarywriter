@@ -1,10 +1,13 @@
 <template>
   <v-app-bar app color="primary" dark>
     <div class="d-flex align-center">
-      <h3 class="headline">
+    <router-link to="/">
+      <h3 class="headline white--text">
         <span class="font-weight-bold">Summary</span
         ><span class="font-weight-light"></span>Writer
       </h3>
+    </router-link>
+      
     </div>
 
     <v-spacer></v-spacer>
