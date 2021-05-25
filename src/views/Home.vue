@@ -3,7 +3,7 @@
     <h1 class="mb-5">Summary Collections</h1>
 
     <v-row>
-      <v-col v-for="collection in summaryCollections" :key="collection.title">
+      <v-col v-for="(collection, index) in summaryCollections" :key="collection.title">
         <v-card color="indigo lighten-1" dark elevation="2">
           <v-card-title v-text="collection.title"></v-card-title>
           <v-card-text>
@@ -17,7 +17,7 @@
               Download
             </v-btn>
             <v-spacer></v-spacer>
-            <v-btn icon>
+            <v-btn @click="showDeleteCollectionDialog = true, setClickedCollectionItemID(index)" icon>
               <v-icon>mdi-delete</v-icon>
             </v-btn>
             <v-btn icon>
@@ -27,7 +27,28 @@
         </v-card>
       </v-col>
     </v-row>
+    
+    <!-- Dialog for delete collection -->
+   <v-dialog v-model="showDeleteCollectionDialog" max-width="400px">
+     <v-card>
+       <v-card-title>Delete Collection?</v-card-title>
+       <v-card-text>
+         Do you really want to delete this collection_ It will be gone forever if you do.
+       </v-card-text>
+       <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="indigo darken-1" text @click="showDeleteCollectionDialog = false">
+            Cancel
+          </v-btn>
+          <v-btn color="red" text @click="deleteCollection">
+            Delete
+          </v-btn>
+         </v-card-actions>
+     </v-card>
+   </v-dialog>
 
+
+    <!-- Dialog for create new collection  -->
     <v-dialog v-model="createNewCollectionDialog" persistent max-width="400px">
       <template v-slot:activator="{ on, attrs }">
         <v-btn
@@ -59,7 +80,7 @@
         ref="menu"
         v-model="menu"
         :close-on-content-click="false"
-        :return-value.sync="date"
+        :return-value.sync="newCollectionDate"
         transition="scale-transition"
         offset-y
         min-width="auto"
@@ -90,7 +111,7 @@
           <v-btn
             text
             color="primary"
-            @click="$refs.menu.save(date)"
+            @click="$refs.menu.save(newCollectionDate)"
           >
             OK
           </v-btn>
@@ -118,9 +139,21 @@ export default {
     return {
       createNewCollectionDialog: false,
       newCollectionTitle: null,
-      newCollectionDate: new Date().toISOString().substr(0, 10)
-
+      newCollectionDate: new Date().toISOString().substr(0, 10),
+      showDeleteCollectionDialog: false,
+      menu: false,
+      clickedCollectionItemID: null
     };
+  },
+  methods: {
+    deleteCollection() {
+      this.showDeleteCollectionDialog = false;
+      this.$store.dispatch("deleteCollection", this.clickedCollectionItemID);
+    },
+    setClickedCollectionItemID(collectionID) {
+      this.clickedCollectionItemID = collectionID;
+      console.log(this.clickedCollectionItemID);
+    }
   },
   computed: {
     summaryCollections() {

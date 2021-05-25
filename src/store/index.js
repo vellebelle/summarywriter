@@ -9,8 +9,14 @@ export default new Vuex.Store({
     summaryCollectionData: testData
   },
   mutations: {
+    deleteCollection(state, collectionID) {
+      state.summaryCollectionData.splice(collectionID, 1);
+    }
   },
   actions: {
+    deleteCollection(context, collectionID) {
+      context.commit('deleteCollection', collectionID);
+    }
   },
   getters: {
     getSummaryCollections(state) {
