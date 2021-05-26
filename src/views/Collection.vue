@@ -3,10 +3,12 @@
     <!-- <h1>Collection Title</h1> -->
   
     <v-row>
+      
       <v-col class="full-height-container">
+        <v-btn @click="testSummary">TEST</v-btn>
         <v-list three-line>
-          <template v-for="summary in summaryCollection">
-            <v-list-item :key="summary.title" @click="displaySummary(summary)">
+          <template v-for="(summary, index) in summaryCollection">
+            <v-list-item :key="index" @click="displaySummary(summary)">
               <v-list-item-content>
                 <v-list-item-title>{{ summary.title }}</v-list-item-title>
                 <v-list-item-subtitle>{{
@@ -59,7 +61,8 @@ export default {
   data() {
     return {
       summaryCollection: collection,
-      currentlySelectedSummary: null
+      currentlySelectedSummary: null,
+      collectionID: null
     };
   },
   methods: {
@@ -71,13 +74,28 @@ export default {
     },
     editSummary() {
       console.log("Edit Summary");
+    },
+    testSummary() {
+      let collection = this.$store.getters.getSummaryCollections;
+      console.log(collection[0].summaries);
+      
+    }
+  },
+  computed: {
+    summaries() {
+      let collection = this.$store.getters.getSummaryCollections[this.collectionID];
+      
+      console.log(collection);
+       return this.$store.getters.summaryCollectionData[this.collectionID].summaries;
     }
   },
   filters: {
     removeHTMLTags(value) {
       return value.replace(/(<([^>]+)>)/gi, "");
     },
-    created() {},
+    created() {
+      this.collectionID = this.$store.getters.getCurrentlySelectedCollectionID;
+    },
   },
 };
 </script>

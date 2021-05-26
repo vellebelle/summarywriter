@@ -20,7 +20,7 @@
             <v-btn @click="showDeleteCollectionDialog = true, setClickedCollectionItemID(index)" icon>
               <v-icon>mdi-delete</v-icon>
             </v-btn>
-            <v-btn icon>
+            <v-btn @click="setClickedCollectionItemID(index), editCollection()" icon>
               <v-icon>mdi-pencil</v-icon>
             </v-btn>
           </v-card-actions>
@@ -163,9 +163,13 @@ export default {
         date: this.newCollectionDate,
         summaries: []
       }
-      console.log(newCollection);
       this.$store.dispatch('addNewCollection', newCollection);
       this.createNewCollectionDialog = false
+    },
+    editCollection() {
+      console.log('Edit collection');
+      this.$store.dispatch('setCurrentlySelectedCollectionID', this.clickedCollectionItemID);
+      this.$router.push('Collection');
     }
   },
   computed: {

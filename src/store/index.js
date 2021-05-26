@@ -6,7 +6,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    summaryCollectionData: testData
+    summaryCollectionData: testData,
+    currentlySelectedCollectionID: 0
   },
   mutations: {
     deleteCollection(state, collectionID) {
@@ -14,6 +15,9 @@ export default new Vuex.Store({
     },
     addNewCollection(state, payload) {
       state.summaryCollectionData.unshift(payload);
+    },
+    setCurrentlySelectedCollectionID(state, payload) {
+      state.currentlySelectedCollection = payload;
     }
   },
   actions: {
@@ -22,11 +26,17 @@ export default new Vuex.Store({
     },
     addNewCollection(context, payload) {
       context.commit('addNewCollection', payload);
+    },
+    setCurrentlySelectedCollectionID(context, payload) {
+      context.commit('setCurrentlySelectedCollectionID', payload);
     }
   },
   getters: {
     getSummaryCollections(state) {
       return state.summaryCollectionData;
-    } 
+    } ,
+    getCurrentlySelectedCollectionID(state) {
+      return state.currentlySelectedCollectionID;
+    }
   }
 })
