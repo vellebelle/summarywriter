@@ -5,9 +5,9 @@
     <v-row>
       
       <v-col class="full-height-container">
-        <v-btn @click="testSummary">TEST</v-btn>
+        <v-btn @click="testSummary">TEST</v-btn><span>ds{{collectionID}}</span>
         <v-list three-line>
-          <template v-for="(summary, index) in summaryCollection">
+          <template v-for="(summary, index) in summaries">
             <v-list-item :key="index" @click="displaySummary(summary)">
               <v-list-item-content>
                 <v-list-item-title>{{ summary.title }}</v-list-item-title>
@@ -77,16 +77,19 @@ export default {
     },
     testSummary() {
       let collection = this.$store.getters.getSummaryCollections;
+      let selectedID = this.$store.getters.getCurrentlySelectedCollectionID;
+      console.log(selectedID);
       console.log(collection[0].summaries);
       
     }
   },
   computed: {
     summaries() {
-      let collection = this.$store.getters.getSummaryCollections[this.collectionID];
-      
-      console.log(collection);
-       return this.$store.getters.summaryCollectionData[this.collectionID].summaries;
+      let collection = this.$store.getters.getSummaryCollections;
+      if (this.$store.getters.getCurrentlySelectedCollectionID >= 0) {
+        return collection[this.$store.getters.getCurrentlySelectedCollectionID].summaries;
+      }
+      return null;
     }
   },
   filters: {

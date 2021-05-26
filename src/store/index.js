@@ -7,7 +7,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     summaryCollectionData: testData,
-    currentlySelectedCollectionID: 0
+    currentlySelectedCollectionID: null
   },
   mutations: {
     deleteCollection(state, collectionID) {
@@ -17,7 +17,7 @@ export default new Vuex.Store({
       state.summaryCollectionData.unshift(payload);
     },
     setCurrentlySelectedCollectionID(state, payload) {
-      state.currentlySelectedCollection = payload;
+      state.currentlySelectedCollectionID = payload;
     }
   },
   actions: {
