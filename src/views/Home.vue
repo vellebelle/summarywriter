@@ -164,7 +164,10 @@ export default {
         summaries: []
       }
       this.$store.dispatch('addNewCollection', newCollection);
+      // Set the selected collection ID to 0 because its added to the top of the array
+      this.$store.dispatch('setCurrentlySelectedCollectionID', 0);
       this.createNewCollectionDialog = false
+      this.$router.push('Collection');
     },
     editCollection() {
       console.log('Edit collection');
