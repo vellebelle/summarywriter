@@ -11,11 +11,17 @@ export default new Vuex.Store({
   mutations: {
     deleteCollection(state, collectionID) {
       state.summaryCollectionData.splice(collectionID, 1);
+    },
+    addNewCollection(state, payload) {
+      state.summaryCollectionData.unshift(payload);
     }
   },
   actions: {
     deleteCollection(context, collectionID) {
       context.commit('deleteCollection', collectionID);
+    },
+    addNewCollection(context, payload) {
+      context.commit('addNewCollection', payload);
     }
   },
   getters: {

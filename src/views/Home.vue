@@ -33,7 +33,7 @@
      <v-card>
        <v-card-title>Delete Collection?</v-card-title>
        <v-card-text>
-         Do you really want to delete this collection_ It will be gone forever if you do.
+         Do you really want to delete this collection? It will be lost forever.. and ever....
        </v-card-text>
        <v-card-actions>
           <v-spacer></v-spacer>
@@ -123,7 +123,7 @@
           <v-btn color="indigo darken-1" text @click="createNewCollectionDialog = false">
             Luk
           </v-btn>
-          <v-btn color="indigo darken-1" text @click="createNewCollectionDialog = false">
+          <v-btn color="indigo darken-1" text @click="createNewCollection">
             Opret
           </v-btn>
         </v-card-actions>
@@ -133,6 +133,7 @@
 </template>
 
 <script>
+import { createUID } from '@/assets/createUniqueID.js';
 export default {
   name: "Home",
   data() {
@@ -153,6 +154,18 @@ export default {
     setClickedCollectionItemID(collectionID) {
       this.clickedCollectionItemID = collectionID;
       console.log(this.clickedCollectionItemID);
+    },
+    createNewCollection() {
+      console.log('create');
+      const newCollection = {
+        id: createUID(),
+        title: this.newCollectionTitle,
+        date: this.newCollectionDate,
+        summaries: []
+      }
+      console.log(newCollection);
+      this.$store.dispatch('addNewCollection', newCollection);
+      this.createNewCollectionDialog = false
     }
   },
   computed: {
