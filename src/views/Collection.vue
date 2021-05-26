@@ -1,8 +1,9 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <!-- <h1>Collection Title</h1> -->
+  
     <v-row>
-      <v-col>
+      <v-col class="full-height-container">
         <v-list three-line>
           <template v-for="summary in summaryCollection">
             <v-list-item :key="summary.title" @click="displaySummary(summary)">
@@ -27,9 +28,8 @@
             </v-list-item>
           </template>
         </v-list>
-        <v-btn @click="sortSources(testSources2)">Sort Test</v-btn>
       </v-col>
-      <v-col>
+      <v-col class="full-height-container">
         <div v-if="currentlySelectedSummary">
           <h3 class="mb-3">
             {{ currentlySelectedSummary.category }}:
@@ -59,27 +59,7 @@ export default {
   data() {
     return {
       summaryCollection: collection,
-      currentlySelectedSummary: null,
-      testSources1: [
-        { medium: "BT", pageNumber: "6", day: null },
-        { medium: "BT", pageNumber: "12", day: null },
-        { medium: "Information", pageNumber: "6", day: null },
-        { medium: "Jyllands-Posten", pageNumber: "15", day: null },
-        { medium: "Jyllands-Posten", pageNumber: "8", day: null },
-        { medium: "Jyllands-Posten", pageNumber: "32", day: null },
-        { medium: "Berlingske", pageNumber: "12", day: null },
-        { medium: "Altinget", pageNumber: null, day: null },
-      ],
-      testSources2: [
-        { medium: "BT", pageNumber: "6", day: "lørdag" },
-        { medium: "BT", pageNumber: "12", day: "mandag" },
-        { medium: "Information", pageNumber: "6", day: "søndag" },
-        { medium: "Jyllands-Posten", pageNumber: "15", day: "mandag" },
-        { medium: "Jyllands-Posten", pageNumber: "8", day: "mandag" },
-        { medium: "Jyllands-Posten", pageNumber: "32", day: "lørdag" },
-        { medium: "Berlingske", pageNumber: "12", day: "søndag" },
-        { medium: "Altinget", pageNumber: null, day: "søndag" },
-      ],
+      currentlySelectedSummary: null
     };
   },
   methods: {
@@ -101,4 +81,10 @@ export default {
   },
 };
 </script>
-<style></style>
+<style>
+.full-height-container {
+  height: calc(calc(var(--vh, 1vh) * 100) - 64px)!important;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+</style>
