@@ -1,11 +1,9 @@
 <template>
   <v-container fluid>
     <!-- <h1>Collection Title</h1> -->
-  
+
     <v-row>
-      
       <v-col class="full-height-container">
-        <v-btn @click="testSummary">TEST</v-btn><span>ds{{collectionID}}</span>
         <v-list three-line>
           <template v-for="(summary, index) in summaries">
             <v-list-item :key="index" @click="displaySummary(summary)">
@@ -30,6 +28,11 @@
             </v-list-item>
           </template>
         </v-list>
+        <v-btn fab dark color="red" fixed bottom right @click="addSummary">
+          <v-icon dark>
+            mdi-plus
+          </v-icon>
+        </v-btn>
       </v-col>
       <v-col class="full-height-container">
         <div v-if="currentlySelectedSummary">
@@ -53,8 +56,8 @@
   </v-container>
 </template>
 <script>
-import collection from '@/assets/test-data';
-import sortSources from '@/mixins/sortSources';
+import collection from "@/assets/test-data";
+import sortSources from "@/mixins/sortSources";
 export default {
   mixins: [sortSources],
   name: "Collection",
@@ -62,7 +65,7 @@ export default {
     return {
       summaryCollection: collection,
       currentlySelectedSummary: null,
-      collectionID: null
+      collectionID: null,
     };
   },
   methods: {
@@ -80,17 +83,16 @@ export default {
       let selectedID = this.$store.getters.getCurrentlySelectedCollectionID;
       console.log(selectedID);
       console.log(collection[0].summaries);
-      
-    }
+    },
+    addSummary() {
+      this.$router.push("Add");
+    },
   },
   computed: {
     summaries() {
       let collection = this.$store.getters.getSummaryCollections;
-      if (this.$store.getters.getCurrentlySelectedCollectionID >= 0) {
-        return collection[this.$store.getters.getCurrentlySelectedCollectionID].summaries;
-      }
-      return null;
-    }
+      return collection[this.$store.getters.getCurrentlySelectedCollectionID].summaries;
+    },
   },
   filters: {
     removeHTMLTags(value) {
@@ -104,7 +106,7 @@ export default {
 </script>
 <style>
 .full-height-container {
-  height: calc(calc(var(--vh, 1vh) * 100) - 64px)!important;
+  height: calc(calc(var(--vh, 1vh) * 100) - 64px) !important;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }

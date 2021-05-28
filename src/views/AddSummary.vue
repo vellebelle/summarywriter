@@ -147,13 +147,22 @@ export default {
     },
     addSummary() {
       // Sources needs to get organised
-      this.summaries.push({
+      // this.summaries.push({
+      //   title: this.title,
+      //   category: this.category,
+      //   profile: this.profile,
+      //   summary: this.editorContent,
+      //   sources: this.sources
+      // });
+
+      this.$store.dispatch('addSingleSummaryToCollection', {
         title: this.title,
         category: this.category,
         profile: this.profile,
         summary: this.editorContent,
         sources: this.sources
       });
+
       this.resetForm();
     },
     resetForm() {
@@ -164,21 +173,16 @@ export default {
       this.sources = [];
     },
     insertQuoteBreak() {
-      // this.$refs.editor.$refs.trix.editor.setSelectedRange([0, 0]);
-      // this.$refs.editor.$refs.trix.editor.insertString("[...]");
       this.editor.insertString("[...]");
     },
     removeLineBreaks() {
       console.log("Remove Line Breaks in selected text");
     },
     decapitalizeSelection() {
-
       const range = this.editor.getSelectedRange();
       const selection = this.editor.getDocument().getStringAtRange(range);
       this.editor.setSelectedRange(range);
-
       this.editor.insertString(selection.toLowerCase());
-      console.log(range, selection);
     },
     onTrixChange(event) {
       console.log("Changed", event);

@@ -18,6 +18,10 @@ export default new Vuex.Store({
     },
     setCurrentlySelectedCollectionID(state, payload) {
       state.currentlySelectedCollectionID = payload;
+    },
+    addSingleSummaryToCollection(state, payload) {
+      console.log(state.summaryCollectionData[state.currentlySelectedCollectionID]);
+      state.summaryCollectionData[state.currentlySelectedCollectionID].summaries.push(payload);
     }
   },
   actions: {
@@ -29,6 +33,9 @@ export default new Vuex.Store({
     },
     setCurrentlySelectedCollectionID(context, payload) {
       context.commit('setCurrentlySelectedCollectionID', payload);
+    },
+    addSingleSummaryToCollection(context, payload) {
+      context.commit('addSingleSummaryToCollection', payload);
     }
   },
   getters: {
