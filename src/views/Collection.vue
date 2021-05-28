@@ -2,10 +2,10 @@
   <v-container fluid>
 
     <v-row>
-      <v-col class="full-height-container">
+      <v-col class="full-height-container pa-0">
         <v-list three-line>
           <template v-for="(summary, index) in summaries">
-            <v-list-item :key="index" @click="displaySummary(summary)">
+            <v-list-item :key="index" @click="displaySummary(summary)" :class="{ prio: summary.profile === 'Prioriterede emner', top: summary.profile === 'Tophistorier' }">
               <v-list-item-content>
                 <v-list-item-title>{{ summary.title }}</v-list-item-title>
                 <v-list-item-subtitle>{{
@@ -25,6 +25,7 @@
                 </v-btn>
               </v-list-item-action>
             </v-list-item>
+            <v-divider :key="index"></v-divider>
           </template>
         </v-list>
         <v-btn fab dark color="red" fixed bottom right @click="addSummary">
@@ -91,8 +92,16 @@ export default {
   computed: {
     summaries() {
       let collection = this.$store.getters.getSummaryCollections;
-      return collection[this.$store.getters.getCurrentlySelectedCollectionID].summaries;
+      let collectionSummaries = collection[this.$store.getters.getCurrentlySelectedCollectionID].summaries;
+      return collectionSummaries.sort((a) => {
+        if (a.profile === 'Tophistorier') {
+          return -1;
+        } else if (a.profile === "Prioriterede emner") {
+          return 1;
+        }
+      });
     },
+
   },
   filters: {
     removeHTMLTags(value) {
@@ -106,5 +115,11 @@ export default {
   height: calc(calc(var(--vh, 1vh) * 100) - 64px) !important;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+}
+.top {
+  background-color: #fff9da;
+}
+.prio {
+  background-color: rgb(236, 236, 236);
 }
 </style>
