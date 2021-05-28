@@ -1,6 +1,5 @@
 <template>
   <v-container fluid>
-    <!-- <h1>Collection Title</h1> -->
 
     <v-row>
       <v-col class="full-height-container">
@@ -36,6 +35,7 @@
       </v-col>
       <v-col class="full-height-container">
         <div v-if="currentlySelectedSummary">
+          <span>Profil: {{ currentlySelectedSummary.profile }}</span>
           <h3 class="mb-3">
             {{ currentlySelectedSummary.category }}:
             {{ currentlySelectedSummary.title }}
@@ -97,10 +97,7 @@ export default {
   filters: {
     removeHTMLTags(value) {
       return value.replace(/(<([^>]+)>)/gi, "");
-    },
-    created() {
-      this.collectionID = this.$store.getters.getCurrentlySelectedCollectionID;
-    },
+    }
   },
 };
 </script>

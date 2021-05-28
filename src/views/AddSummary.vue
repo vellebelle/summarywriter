@@ -3,9 +3,9 @@
     <v-row>
       <v-col md="8" sm="12">
         <v-radio-group v-model="profile" row>
-          <v-radio label="Andre" value="andre"></v-radio>
-          <v-radio label="Prioriterede Emner" value="prio"></v-radio>
-          <v-radio label="Top Nyheder" value="top"></v-radio>
+          <v-radio label="Andre historier" value="Andre historier"></v-radio>
+          <v-radio label="Prioriterede Emner" value="Prioriterede Emner"></v-radio>
+          <v-radio label="Tophistorier" value="Tophistorier"></v-radio>
         </v-radio-group>
 
         <v-row>
@@ -81,7 +81,7 @@ export default {
   data: () => ({
     editor: null,
     editorContent: "",
-    profile: "andre",
+    profile: "Andre historier",
     title: "",
     pageNumber: null,
     category: "",
@@ -126,7 +126,6 @@ export default {
     weekdays: ["(Ingen)", "Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag", "Lørdag", "Søndag"],
     selectedPaper: "",
     sources: [],
-    summaries: [],
     mediumRules: [
       v => !!v || "Vælg medie"
     ]
@@ -146,14 +145,7 @@ export default {
       this.sources.splice(i, 1);
     },
     addSummary() {
-      // Sources needs to get organised
-      // this.summaries.push({
-      //   title: this.title,
-      //   category: this.category,
-      //   profile: this.profile,
-      //   summary: this.editorContent,
-      //   sources: this.sources
-      // });
+
 
       this.$store.dispatch('addSingleSummaryToCollection', {
         title: this.title,
