@@ -4,7 +4,7 @@
       <v-col md="8" sm="12">
         <v-radio-group v-model="profile" row>
           <v-radio label="Andre historier" value="Andre historier"></v-radio>
-          <v-radio label="Prioriterede Emner" value="Prioriterede Emner"></v-radio>
+          <v-radio label="Prioriterede emner" value="Prioriterede emner"></v-radio>
           <v-radio label="Tophistorier" value="Tophistorier"></v-radio>
         </v-radio-group>
 

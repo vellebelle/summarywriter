@@ -22,6 +22,9 @@ export default new Vuex.Store({
     addSingleSummaryToCollection(state, payload) {
       console.log(state.summaryCollectionData[state.currentlySelectedCollectionID]);
       state.summaryCollectionData[state.currentlySelectedCollectionID].summaries.push(payload);
+    },
+    deleteSummaryFromCollection(state, payload) {
+      state.summaryCollectionData[state.currentlySelectedCollectionID].summaries.splice(payload, 1);
     }
   },
   actions: {
@@ -36,6 +39,9 @@ export default new Vuex.Store({
     },
     addSingleSummaryToCollection(context, payload) {
       context.commit('addSingleSummaryToCollection', payload);
+    },
+    deleteSummaryFromCollection(context, payload) {
+      context.commit('deleteSummaryFromCollection', payload);
     }
   },
   getters: {

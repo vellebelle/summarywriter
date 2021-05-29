@@ -13,7 +13,7 @@
                 }}</v-list-item-subtitle>
               </v-list-item-content>
               <v-list-item-action class="flex-row">
-                <v-btn icon @click="deleteSummary">
+                <v-btn icon @click="deleteSummary(index)">
                   <v-icon color="grey lighten-1">
                     mdi-delete
                   </v-icon></v-btn
@@ -73,17 +73,12 @@ export default {
     displaySummary(summary) {
       this.currentlySelectedSummary = summary;
     },
-    deleteSummary() {
+    deleteSummary(index) {
       console.log("Delete Summary");
+      this.$store.dispatch('deleteSummaryFromCollection', index);
     },
     editSummary() {
       console.log("Edit Summary");
-    },
-    testSummary() {
-      let collection = this.$store.getters.getSummaryCollections;
-      let selectedID = this.$store.getters.getCurrentlySelectedCollectionID;
-      console.log(selectedID);
-      console.log(collection[0].summaries);
     },
     addSummary() {
       this.$router.push("Add");
@@ -95,9 +90,9 @@ export default {
       let collectionSummaries = collection[this.$store.getters.getCurrentlySelectedCollectionID].summaries;
       return collectionSummaries.sort((a) => {
         if (a.profile === 'Tophistorier') {
-          return -1;
+          return -2;
         } else if (a.profile === "Prioriterede emner") {
-          return 1;
+          return -1;
         }
       });
     },
