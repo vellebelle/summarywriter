@@ -91,7 +91,7 @@ export default {
           color: "indigo",
           resolveButtonText: "Slet",
           rejectButtonText: "Fortryd",
-          width: 400
+          width: 400,
         })
         .then((confirm) => {
           if (confirm) {
@@ -117,6 +117,18 @@ export default {
           return -1;
         } 
       });
+
+      // let collection = this.$store.getters.getSummaryCollections;
+      // let collectionSummaries =
+      //   collection[this.$store.getters.getCurrentlySelectedCollectionID]
+      //     .summaries;
+      // return collectionSummaries.sort((a) => {
+      //   if (a.profile === "Tophistorier") {
+      //     return -2;
+      //   } else if (a.profile === "Prioriterede emner") {
+      //     return -1;
+      //   }
+      // });
     },
   },
   filters: {

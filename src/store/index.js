@@ -1,12 +1,24 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import testData from '../assets/summaryCollections';
+import VuexPersist from 'vuex-persist';
+// import testData from '../assets/summaryCollections';
 
 Vue.use(Vuex)
 
+const vuexPersist = new VuexPersist({
+  key: 'summarywriter',
+  storage: localStorage,
+  reducer: (state) => (
+    { summaryCollectionData: state.summaryCollectionData,
+      currentlySelectedCollectionID: state.currentlySelectedCollectionID
+    })
+})
+
+
+
 export default new Vuex.Store({
   state: {
-    summaryCollectionData: testData,
+    summaryCollectionData: [],
     currentlySelectedCollectionID: null
   },
   mutations: {
@@ -51,5 +63,6 @@ export default new Vuex.Store({
     getCurrentlySelectedCollectionID(state) {
       return state.currentlySelectedCollectionID;
     }
-  }
+  },
+  plugins: [vuexPersist.plugin]
 })
