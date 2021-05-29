@@ -64,8 +64,7 @@
             <span v-if="source.pageNumber">, s. {{ source.pageNumber }}</span>
           </li>
         </ul>
-        <h3>Test Summaries</h3>
-        {{ summaries }}
+
       </v-col>
     </v-row>
   </v-container>

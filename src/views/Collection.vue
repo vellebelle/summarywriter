@@ -87,7 +87,12 @@ export default {
     deleteSummary(index) {
       console.log("Delete Summary");
       this.$refs.confirm
-        .open("Slet resume?", "Er du sikker? Der er ingen vej tilbage..", { color: "indigo", resolveButtonText: "Slet", rejectButtonText: "Fortryd"})
+        .open("Slet resume?", "Er du sikker? Der er ingen vej tilbage..", {
+          color: "indigo",
+          resolveButtonText: "Slet",
+          rejectButtonText: "Fortryd",
+          width: 400
+        })
         .then((confirm) => {
           if (confirm) {
             this.$store.dispatch("deleteSummaryFromCollection", index);
@@ -107,12 +112,10 @@ export default {
       let collectionSummaries =
         collection[this.$store.getters.getCurrentlySelectedCollectionID]
           .summaries;
-      return collectionSummaries.sort((a) => {
-        if (a.profile === "Tophistorier") {
-          return -2;
-        } else if (a.profile === "Prioriterede emner") {
+      return collectionSummaries.sort((a, b) => {
+        if (a.profile > b.profile) {
           return -1;
-        }
+        } 
       });
     },
   },
