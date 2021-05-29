@@ -165,7 +165,14 @@ export default {
       this.editor.insertString("[...]");
     },
     removeLineBreaks() {
-      console.log("Remove Line Breaks in selected text");
+      const range = this.editor.getSelectedRange();
+      let selection = this.editor.getDocument().getStringAtRange(range);
+      // Remove line breaks
+      selection = selection.replace(/(\r\n|\n|\r)/gm," ");
+      // Remove double spaces
+      selection = selection.replace(/\s+/g," ");
+      this.editor.setSelectedRange(range);
+      this.editor.insertString(selection);
     },
     decapitalizeSelection() {
       const range = this.editor.getSelectedRange();
