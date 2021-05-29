@@ -1,11 +1,17 @@
 <template>
   <v-container fluid>
-
     <v-row>
       <v-col class="full-height-container pa-0">
         <v-list three-line>
           <template v-for="(summary, index) in summaries">
-            <v-list-item :key="index" @click="displaySummary(summary)" :class="{ prio: summary.profile === 'Prioriterede emner', top: summary.profile === 'Tophistorier' }">
+            <v-list-item
+              :key="summary.title"
+              @click="displaySummary(summary)"
+              :class="{
+                prio: summary.profile === 'Prioriterede emner',
+                top: summary.profile === 'Tophistorier',
+              }"
+            >
               <v-list-item-content>
                 <v-list-item-title>{{ summary.title }}</v-list-item-title>
                 <v-list-item-subtitle>{{
@@ -54,14 +60,19 @@
         </div>
       </v-col>
     </v-row>
+    <Confirm ref="confirm"> </Confirm>
   </v-container>
 </template>
 <script>
 import collection from "@/assets/test-data";
 import sortSources from "@/mixins/sortSources";
+import Confirm from "@/components/Confirm.vue";
 export default {
   mixins: [sortSources],
   name: "Collection",
+  components: {
+    Confirm: Confirm,
+  },
   data() {
     return {
       summaryCollection: collection,
@@ -75,7 +86,13 @@ export default {
     },
     deleteSummary(index) {
       console.log("Delete Summary");
-      this.$store.dispatch('deleteSummaryFromCollection', index);
+      this.$refs.confirm
+        .open("Slet resume?", "Er du sikker? Der er ingen vej tilbage..", { color: "indigo", resolveButtonText: "Slet", rejectButtonText: "Fortryd"})
+        .then((confirm) => {
+          if (confirm) {
+            this.$store.dispatch("deleteSummaryFromCollection", index);
+          }
+        });
     },
     editSummary() {
       console.log("Edit Summary");
@@ -87,21 +104,22 @@ export default {
   computed: {
     summaries() {
       let collection = this.$store.getters.getSummaryCollections;
-      let collectionSummaries = collection[this.$store.getters.getCurrentlySelectedCollectionID].summaries;
+      let collectionSummaries =
+        collection[this.$store.getters.getCurrentlySelectedCollectionID]
+          .summaries;
       return collectionSummaries.sort((a) => {
-        if (a.profile === 'Tophistorier') {
+        if (a.profile === "Tophistorier") {
           return -2;
         } else if (a.profile === "Prioriterede emner") {
           return -1;
         }
       });
     },
-
   },
   filters: {
     removeHTMLTags(value) {
       return value.replace(/(<([^>]+)>)/gi, "");
-    }
+    },
   },
 };
 </script>
