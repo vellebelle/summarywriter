@@ -144,8 +144,6 @@ export default {
       this.sources.splice(i, 1);
     },
     addSummary() {
-
-
       this.$store.dispatch('addSingleSummaryToCollection', {
         title: this.title,
         category: this.category,
@@ -153,8 +151,8 @@ export default {
         summary: this.editorContent,
         sources: this.sources
       });
-
       this.resetForm();
+      this.$router.push('Collection');
     },
     resetForm() {
       this.title = null;
@@ -204,6 +202,9 @@ export default {
   padding: 0;
 }
 #trix-toolbar-1 {
+  display: none;
+}
+.trix-button-row {
   display: none;
 }
 em {
