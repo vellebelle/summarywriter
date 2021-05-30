@@ -15,7 +15,7 @@
           </v-card-text>
 
           <v-card-actions>
-            <v-btn text>
+            <v-btn text @click="downloadWordFile(index)">
               <v-icon class="mr-2">mdi-download</v-icon>
               Download
             </v-btn>
@@ -30,6 +30,7 @@
         </v-card>
       </v-col>
     </v-row>
+    <v-btn @click="addTestData">Add test data</v-btn>
 
     <Confirm ref="confirm"> </Confirm>
 
@@ -113,8 +114,10 @@
 </template>
 
 <script>
-import { createUID } from "@/assets/createUniqueID.js";
+import { createUID } from "@/assets/createUniqueID";
 import Confirm from "@/components/Confirm.vue";
+import testData from '@/assets/summaryCollections'
+
 export default {
   name: "Home",
   components: {
@@ -169,8 +172,14 @@ export default {
       this.$store.dispatch("setCurrentlySelectedCollectionID", index);
       this.$router.push("Collection");
     },
-    downloadWordFile() {
-      
+    addTestData() {
+      testData.forEach((collection) => {
+        this.$store.dispatch("addNewCollection", collection);
+      });
+    },
+    downloadWordFile(collectionIndex) {
+      const collection = this.summaryCollections[collectionIndex];
+      console.log(collection);
     }
   },
   computed: {
