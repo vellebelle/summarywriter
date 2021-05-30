@@ -2,37 +2,64 @@
   <v-container>
     <v-row>
       <v-col md="8" sm="12">
-        <v-radio-group v-model="profile" row>
-          <v-radio label="Andre historier" value="Andre historier"></v-radio>
-          <v-radio label="Prioriterede emner" value="Prioriterede emner"></v-radio>
-          <v-radio label="Tophistorier" value="Tophistorier"></v-radio>
-        </v-radio-group>
+        <v-form ref="mainForm" lazy-validation v-model="mainFormValid">
+          <v-radio-group v-model="profile" row required>
+            <v-radio label="Andre historier" value="Andre historier"></v-radio>
+            <v-radio
+              label="Prioriterede emner"
+              value="Prioriterede emner"
+            ></v-radio>
+            <v-radio label="Tophistorier" value="Tophistorier"></v-radio>
+          </v-radio-group>
 
-        <v-row>
-          <v-col md="8" sm="12">
-            <v-text-field label="Titel" v-model="title"></v-text-field>
-          </v-col>
-          <v-col md="4" sm="12">
-            <v-select :items="categories" label="Kategori" v-model="category"></v-select>
-          </v-col>
-        </v-row>
-        
+          <v-row>
+            <v-col md="8" sm="12">
+              <v-text-field
+                label="Titel"
+                :rules="titleRules"
+                v-model="title"
+              ></v-text-field>
+            </v-col>
+            <v-col md="4" sm="12">
+              <v-select
+                :items="categories"
+                :rules="categoryRules"
+                label="Kategori"
+                v-model="category"
+              ></v-select>
+            </v-col>
+          </v-row>
+        </v-form>
+
         <div class="custom-toolbar mb-3">
           <v-btn @click="insertQuoteBreak" class="mr-3" small>[...]</v-btn>
-          <v-btn @click="removeLineBreaks" class="mr-3" small>Remove line breaks</v-btn>
+          <v-btn @click="removeLineBreaks" class="mr-3" small
+            >Remove line breaks</v-btn
+          >
           <v-btn @click="decapitalizeSelection" small>Decapitalize</v-btn>
         </div>
-        
-        <VueTrix v-model="editorContent" placeholder="Skriv resumé..." ref="editor"/>
+
+        <VueTrix
+          v-model="editorContent"
+          placeholder="Skriv resumé..."
+          ref="editor"
+        />
 
         <v-row align="center">
           <v-col cols="4">
+            <v-form
+              lazy-validation
+              ref="sourceForm"
+              v-model="sourceFormValid"
+            >
             <v-select
+              required
               :items="media"
               label="Vælg avis"
               v-model="selectedPaper"
               :rules="mediumRules"
             ></v-select>
+            </v-form>
           </v-col>
           <v-col cols="4">
             <v-select
@@ -44,13 +71,16 @@
           <v-col cols="2">
             <v-text-field label="Side" v-model="pageNumber"></v-text-field>
           </v-col>
+          
           <v-col cols="2">
             <v-btn depressed color="primary" small @click="addSource"
               >Tilføj kilde</v-btn
             >
           </v-col>
         </v-row>
-        <v-btn @click="addSummary" depressed color="primary" class="mt-4">Tilføj Resumé</v-btn>
+        <v-btn @click="addSummary" depressed color="primary" class="mt-4"
+          >Tilføj Resumé</v-btn
+        >
       </v-col>
       <v-col md="4" sm="12" class="sources-list">
         <h3 class="mt-5 subtitle-1">Kilder</h3>
@@ -64,7 +94,6 @@
             <span v-if="source.pageNumber">, s. {{ source.pageNumber }}</span>
           </li>
         </ul>
-
       </v-col>
     </v-row>
   </v-container>
@@ -107,7 +136,7 @@ export default {
       "Konkurrence",
       "Sundhed",
       "Klima",
-      "Administration"
+      "Administration",
     ],
     media: [
       "Politiken",
@@ -122,44 +151,59 @@ export default {
       "Weekendavisen",
     ],
     selectedDay: null,
-    weekdays: ["(Ingen)", "Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag", "Lørdag", "Søndag"],
+    weekdays: [
+      "Ingen",
+      "Mandag",
+      "Tirsdag",
+      "Onsdag",
+      "Torsdag",
+      "Fredag",
+      "Lørdag",
+      "Søndag",
+    ],
     selectedPaper: "",
     sources: [],
-    mediumRules: [
-      v => !!v || "Vælg medie"
-    ]
+    sourceFormValid: true,
+    mediumRules: [(v) => !!v || "Vælg medie"],
+
+    mainFormValid: true,
+    titleRules: [(v) => !!v || "Indtast en titel"],
+    categoryRules: [(v) => !!v || "Vælg en kategori"],
   }),
   methods: {
     addSource() {
-      this.sources.push({
-        medium: this.selectedPaper,
-        pageNumber: this.pageNumber,
-        day: this.selectedDay === "(Ingen)" ? null : this.selectedDay,
-      });
-      this.selectedDay = null;
-      this.selectedPaper = null;
-      this.pageNumber = null;
+    
+      if (this.$refs.sourceForm.validate()) {
+        this.sources.push({
+          medium: this.selectedPaper,
+          pageNumber: this.pageNumber,
+          day: this.selectedDay === "(Ingen)" ? null : this.selectedDay,
+        });
+        // Reset values
+        this.selectedDay = null;
+        this.selectedPaper = null;
+        this.pageNumber = null;
+
+        // Reset form
+        this.$refs.sourceForm.reset();
+      }
     },
     deleteSource(i) {
       this.sources.splice(i, 1);
     },
     addSummary() {
-      this.$store.dispatch('addSingleSummaryToCollection', {
-        title: this.title,
-        category: this.category,
-        profile: this.profile,
-        summary: this.editorContent,
-        sources: this.sources
-      });
-      this.resetForm();
-      this.$router.push('Collection');
-    },
-    resetForm() {
-      this.title = null;
-      this.category = null;
-      this.profile = null;
-      this.editorContent = "";
-      this.sources = [];
+      // ALso check if any sources..
+      if (this.$refs.mainForm.validate()) {
+        this.$store.dispatch("addSingleSummaryToCollection", {
+          title: this.title,
+          category: this.category,
+          profile: this.profile,
+          summary: this.editorContent,
+          sources: this.sources,
+        });
+        this.$refs.mainForm.reset();
+        this.$router.push("Collection");
+      }
     },
     insertQuoteBreak() {
       this.editor.insertString("[...]");
@@ -168,9 +212,9 @@ export default {
       const range = this.editor.getSelectedRange();
       let selection = this.editor.getDocument().getStringAtRange(range);
       // Remove line breaks
-      selection = selection.replace(/(\r\n|\n|\r)/gm," ");
+      selection = selection.replace(/(\r\n|\n|\r)/gm, " ");
       // Remove double spaces
-      selection = selection.replace(/\s+/g," ");
+      selection = selection.replace(/\s+/g, " ");
       this.editor.setSelectedRange(range);
       this.editor.insertString(selection);
     },
