@@ -117,8 +117,11 @@
 import { createUID } from "@/assets/createUniqueID";
 import Confirm from "@/components/Confirm.vue";
 import testData from '@/assets/summaryCollections'
-
+import sortSources from "@/mixins/sortSources";
+import { saveAs } from 'file-saver';
+// const htmlDocx = require('html-docx.js');
 export default {
+  mixins: [sortSources],
   name: "Home",
   components: {
     Confirm: Confirm,
@@ -131,6 +134,8 @@ export default {
       menu: false,
       collectionTitleFormValid: true,
       collectionTitleRules: [(v) => !!v || "Indtast en titel"],
+      allSummaries: '',
+      convertedSummary: null
     };
   },
   methods: {
@@ -178,8 +183,24 @@ export default {
       });
     },
     downloadWordFile(collectionIndex) {
-      const collection = this.summaryCollections[collectionIndex];
-      console.log(collection);
+      const header = "<html><head><meta charset='utf-8'></head><body>";
+      const footer = "</body></html>";
+
+      
+      const collection = this.summaryCollections[collectionIndex].summaries;
+      console.log('coll', typeof collection);
+      collection.forEach((item) => {
+        let sources = this.sortSources(item.sources);
+        const textContent = item.summary.replace("<div>", "<br>").replace("</div>", "");
+        const fullSummary = `${header}<strong>${item.category}: ${item.title}</strong>${textContent}<br><em>${sources}</em>${footer}`;
+        // console.log('full summary',fullSummary);
+     
+        
+        this.allSummaries += fullSummary;
+      });
+    console.log(this.allSummaries);
+      this.convertedSummary = window.htmlDocx.asBlob(this.allSummaries);
+      saveAs(this.convertedSummary, 'filename.docx');
     }
   },
   computed: {
