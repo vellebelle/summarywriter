@@ -169,6 +169,9 @@ export default {
       this.$store.dispatch("setCurrentlySelectedCollectionID", index);
       this.$router.push("Collection");
     },
+    downloadWordFile() {
+      
+    }
   },
   computed: {
     summaryCollections() {
