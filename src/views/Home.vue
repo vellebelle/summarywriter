@@ -32,29 +32,6 @@
     </v-row>
 
     <Confirm ref="confirm"> </Confirm>
-    <!-- Dialog for delete collection -->
-    <!-- <v-dialog v-model="showDeleteCollectionDialog" max-width="400px">
-      <v-card>
-        <v-card-title>Delete Collection?</v-card-title>
-        <v-card-text>
-          Do you really want to delete this collection? It will be lost
-          forever.. and ever....
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="indigo darken-1"
-            text
-            @click="showDeleteCollectionDialog = false"
-          >
-            Cancel
-          </v-btn>
-          <v-btn color="red" text @click="deleteCollection">
-            Delete
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog> -->
 
     <!-- Dialog for create new collection  -->
     <v-dialog v-model="createNewCollectionDialog" persistent max-width="400px">
@@ -67,14 +44,22 @@
       </template>
       <v-card>
         <v-card-title>
-          <span class="headline">Opret ny collection</span>
+          <span class="headline">Opret ny resumésamling</span>
         </v-card-title>
         <v-card-text>
-          <v-text-field
-            v-model="newCollectionTitle"
-            label="Collection Title"
-            required
-          ></v-text-field>
+          <v-form
+            ref="collectionTitleForm"
+            v-model="collectionTitleFormValid"
+            lazy-validation
+          >
+            <v-text-field
+              v-model="newCollectionTitle"
+              label="Titel"
+              :rules="collectionTitleRules"
+              required
+            ></v-text-field>
+          </v-form>
+
           <v-menu
             ref="menu"
             v-model="menu"
@@ -141,6 +126,8 @@ export default {
       newCollectionTitle: null,
       newCollectionDate: new Date().toISOString().substr(0, 10),
       menu: false,
+      collectionTitleFormValid: true,
+      collectionTitleRules: [(v) => !!v || "Indtast en titel"],
     };
   },
   methods: {
@@ -163,18 +150,19 @@ export default {
       console.log(this.clickedCollectionItemID);
     },
     createNewCollection() {
-      console.log("create");
-      const newCollection = {
-        id: createUID(),
-        title: this.newCollectionTitle,
-        date: this.newCollectionDate,
-        summaries: [],
-      };
-      this.$store.dispatch("addNewCollection", newCollection);
-      // Set the selected collection ID to 0 because its added to the top of the array
-      this.$store.dispatch("setCurrentlySelectedCollectionID", 0);
-      this.createNewCollectionDialog = false;
-      this.$router.push("Collection");
+      if (this.$refs.collectionTitleForm.validate()) {
+        const newCollection = {
+          id: createUID(),
+          title: this.newCollectionTitle,
+          date: this.newCollectionDate,
+          summaries: [],
+        };
+        this.$store.dispatch("addNewCollection", newCollection);
+        // Set the selected collection ID to 0 because its added to the top of the array
+        this.$store.dispatch("setCurrentlySelectedCollectionID", 0);
+        this.createNewCollectionDialog = false;
+        this.$router.push("Collection");
+      }
     },
     editCollection(index) {
       console.log("Edit collection");
