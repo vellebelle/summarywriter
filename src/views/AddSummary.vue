@@ -47,18 +47,14 @@
 
         <v-row align="center">
           <v-col cols="4">
-            <v-form
-              lazy-validation
-              ref="sourceForm"
-              v-model="sourceFormValid"
-            >
-            <v-select
-              required
-              :items="media"
-              label="Vælg avis"
-              v-model="selectedPaper"
-              :rules="mediumRules"
-            ></v-select>
+            <v-form lazy-validation ref="sourceForm" v-model="sourceFormValid">
+              <v-select
+                required
+                :items="media"
+                label="Vælg avis"
+                v-model="selectedPaper"
+                :rules="mediumRules"
+              ></v-select>
             </v-form>
           </v-col>
           <v-col cols="4">
@@ -71,7 +67,7 @@
           <v-col cols="2">
             <v-text-field label="Side" v-model="pageNumber"></v-text-field>
           </v-col>
-          
+
           <v-col cols="2">
             <v-btn depressed color="primary" small @click="addSource"
               >Tilføj kilde</v-btn
@@ -81,6 +77,7 @@
         <v-btn @click="addSummary" depressed color="primary" class="mt-4"
           >Tilføj Resumé</v-btn
         >
+        <div class="red--text mt-3">{{ noSourcesErrorText }}</div>
       </v-col>
       <v-col md="4" sm="12" class="sources-list">
         <h3 class="mt-5 subtitle-1">Kilder</h3>
@@ -100,91 +97,91 @@
 </template>
 
 <script>
-import VueTrix from "vue-trix";
+import VueTrix from 'vue-trix';
 export default {
-  name: "AddSummary",
+  name: 'AddSummary',
   components: {
     VueTrix,
   },
   data: () => ({
     editor: null,
-    editorContent: "",
-    profile: "Andre historier",
-    title: "",
+    editorContent: '',
+    profile: 'Andre historier',
+    title: '',
     pageNumber: null,
-    category: "",
+    category: '',
     categories: [
-      "Institutionelle anliggender",
-      "Interne anliggender",
-      "Retlige anliggender",
-      "Finansielle anliggender",
-      "Grundlæggende rettigheder",
-      "Udenrigspolitik",
-      "Socialpolitik",
-      "Naboskabspolitik",
-      "Arbejdsmarkedspolitik",
-      "Sikkerhedspolitik",
-      "Frihandelsaftale med USA",
-      "Det digitale indre marked",
-      "Udvidelse",
-      "Økonomi",
-      "Beskæftigelse, vækst og investeringer",
-      "Landbrug",
-      "Migration",
-      "Handel",
-      "Kultur",
-      "Konkurrence",
-      "Sundhed",
-      "Klima",
-      "Administration",
+      'Institutionelle anliggender',
+      'Interne anliggender',
+      'Retlige anliggender',
+      'Finansielle anliggender',
+      'Grundlæggende rettigheder',
+      'Udenrigspolitik',
+      'Socialpolitik',
+      'Naboskabspolitik',
+      'Arbejdsmarkedspolitik',
+      'Sikkerhedspolitik',
+      'Frihandelsaftale med USA',
+      'Det digitale indre marked',
+      'Udvidelse',
+      'Økonomi',
+      'Beskæftigelse, vækst og investeringer',
+      'Landbrug',
+      'Migration',
+      'Handel',
+      'Kultur',
+      'Konkurrence',
+      'Sundhed',
+      'Klima',
+      'Administration',
     ],
     media: [
-      "Politiken",
-      "Berlingske",
-      "B.T.",
-      "Jyllands-Posten",
-      "Kristeligt Dagblad",
-      "Information",
-      "Ekstra Bladet",
-      "Børsen",
-      "Altinget",
-      "Weekendavisen",
+      'Politiken',
+      'Berlingske',
+      'B.T.',
+      'Jyllands-Posten',
+      'Kristeligt Dagblad',
+      'Information',
+      'Ekstra Bladet',
+      'Børsen',
+      'Altinget',
+      'Weekendavisen',
     ],
     selectedDay: null,
     weekdays: [
-      "Ingen",
-      "Mandag",
-      "Tirsdag",
-      "Onsdag",
-      "Torsdag",
-      "Fredag",
-      "Lørdag",
-      "Søndag",
+      'Ingen',
+      'Mandag',
+      'Tirsdag',
+      'Onsdag',
+      'Torsdag',
+      'Fredag',
+      'Lørdag',
+      'Søndag',
     ],
-    selectedPaper: "",
+    selectedPaper: '',
     sources: [],
     sourceFormValid: true,
-    mediumRules: [(v) => !!v || "Vælg medie"],
-
+    mediumRules: [(v) => !!v || 'Vælg medie'],
+    noSourcesErrorText: '',
     mainFormValid: true,
-    titleRules: [(v) => !!v || "Indtast en titel"],
-    categoryRules: [(v) => !!v || "Vælg en kategori"],
+    titleRules: [(v) => !!v || 'Indtast en titel'],
+    categoryRules: [(v) => !!v || 'Vælg en kategori'],
   }),
   methods: {
     addSource() {
-    
       if (this.$refs.sourceForm.validate()) {
         this.sources.push({
           medium: this.selectedPaper,
           pageNumber: this.pageNumber,
-          day: this.selectedDay === "(Ingen)" ? null : this.selectedDay,
+          day: this.selectedDay === '(Ingen)' ? null : this.selectedDay,
         });
         // Reset values
         this.selectedDay = null;
         this.selectedPaper = null;
         this.pageNumber = null;
 
-        // Reset form
+        // Reset form and error msg
+        this.noSourcesErrorText = '';
         this.$refs.sourceForm.reset();
       }
     },
@@ -193,8 +190,14 @@ export default {
     },
     addSummary() {
       // ALso check if any sources..
+
       if (this.$refs.mainForm.validate()) {
-        this.$store.dispatch("addSingleSummaryToCollection", {
+        // Check if there are sources added
+        if (this.sources.length === 0) {
+          this.noSourcesErrorText = 'Husk at tilføje mindst een kilde';
+          return;
+        }
+        this.$store.dispatch('addSingleSummaryToCollection', {
           title: this.title,
           category: this.category,
           profile: this.profile,
@@ -202,19 +205,20 @@ export default {
           sources: this.sources,
         });
         this.$refs.mainForm.reset();
-        this.$router.push("Collection");
+        this.noSourcesErrorText = '';
+        this.$router.push('Collection');
       }
     },
     insertQuoteBreak() {
-      this.editor.insertString("[...]");
+      this.editor.insertString('[...]');
     },
     removeLineBreaks() {
       const range = this.editor.getSelectedRange();
       let selection = this.editor.getDocument().getStringAtRange(range);
       // Remove line breaks
-      selection = selection.replace(/(\r\n|\n|\r)/gm, " ");
+      selection = selection.replace(/(\r\n|\n|\r)/gm, ' ');
       // Remove double spaces
-      selection = selection.replace(/\s+/g, " ");
+      selection = selection.replace(/\s+/g, ' ');
       this.editor.setSelectedRange(range);
       this.editor.insertString(selection);
     },
@@ -225,20 +229,20 @@ export default {
       this.editor.insertString(selection.toLowerCase());
     },
     onTrixChange(event) {
-      console.log("Changed", event);
+      console.log('Changed', event);
     },
     onTrixPaste(event) {
-      console.log("Pasted!", event);
+      console.log('Pasted!', event);
     },
   },
   mounted() {
     this.editor = this.$refs.editor.$refs.trix.editor;
-    document.addEventListener("trix-change", this.onTrixChange);
-    document.addEventListener("trix-paste", this.onTrixPaste);
+    document.addEventListener('trix-change', this.onTrixChange);
+    document.addEventListener('trix-paste', this.onTrixPaste);
   },
   beforeDestroy() {
-    document.removeEventListener("trix-change", this.onTrixChange);
-    document.removeEventListener("trix-paste", this.onTrixPaste);
+    document.removeEventListener('trix-change', this.onTrixChange);
+    document.removeEventListener('trix-paste', this.onTrixPaste);
   },
 };
 </script>
