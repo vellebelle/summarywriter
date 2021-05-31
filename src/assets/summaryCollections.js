@@ -30,7 +30,7 @@ const summaryCollections = [
         title:
           "Økonomisk demokrati kulsejlede i 70'erne. I dag er der brug for internationale løsninger",
         category: "Økonomi",
-        profile: "Andre Historier",
+        profile: "Andre historier",
         summary:
           '<div>Information bringer en kronik af Mogens Lykketoft, forhenværende udenrigsminister og formand for Socialdemokratiet. Han skriver blandt andet: "Pelle Dragsted påpeger, at det danske samfund hverken er en ureguleret markedsøkonomi eller en rendyrket planøkonomi. Markedskræfterne - ejendomsretten - indrammes af lovgivning, der beskytter arbejdsmiljø, natur og klima, regler mod vild finansspekulation, huslejeregulering mv. En stor offentlig sektor beskæftiger en tredjedel af arbejdsstyrken uden for markedet og privatkapitalismen. [...] Pelle Dragsted anerkender, at private virksomheder fortsat skal bidrage til at skabe udvikling og velstand. Men efter fyrre års global nyliberalisme er fællesskabet i alle dets former trængt tilbage. Derfor leder han efter nye veje til at udbrede demokratiske ejerformer og bremse for privatisering og udlicitering. [...] Europæiske socialdemokratier får kritik for at have udvisket deres profil ved at medvirke til neoliberalistisk politik og dermed tabe terræn til de populistiske oprør. Mette Frederiksen får behersket ros for at lægge op til en ny social kontrakt. Men - siger Dragsted - socialdemokraterne er ikke klar til at tage et mere frontalt opgør med ejerskab og magt. [...] Magtbalancen mellem demokrati og kapital afgøres i dag hverken i den enkelte virksomhed eller i det enkelte land. Her må vi forlade os på internationalt samarbejde som det, præsident Biden overraskende lige har spillet ud med - om massiv indsats mod skatteflugt og skattely og fælles bund under selskabsskatten. Måske kan det suppleres med en særlig formueskat på de superrige. Klimasagen må fremmes ved fælles massiv forsknings- og udviklingsindsats fra erhvervsliv og stat og optrapning til høj beskatning af klimagasser. Her skal EU spille en afgørende rolle. Og her er Pelle Dragsted fåmælt, fordi han stadig er hæmmet i sin tilgang af Enhedslistens anakronistiske EU-modstand."</div>',
         sources: [{ medium: "Information", pageNumber: "16-17", day: null }],
@@ -38,7 +38,7 @@ const summaryCollections = [
       {
         title: "EU's velmenende parodi på sig selv",
         category: "Institutionelle anliggender",
-        profile: "Andre Historier",
+        profile: "Andre historier",
         summary:
           '<div>I Informations leder kan man i dag blandt andet læse: "I søndags skød Macron med et års coronaforsinkelse selv konferencen i gang i Strasbourg. Alle interesserede EU-borgere kan nu indlevere deres forslag på en digital platform og deltage i borgermøder, der senere samles til et decideret borgerting. Med kategorier som klima, sundhed, økonomi, digitalisering og indvandring vil processen løbe frem til foråret 2021, hvor netop Frankrig sidder på EU-formandskabet. Det er velmenende. Men det er ikke videre lovende. Både fordi Macron har set temmelig stort på sit eget franske borgertings forslag til klimatiltag. Og især fordi EU med konferencen har skaB.T. en parodi på sit demokratiske underskud og sine komplicerede politiske processer. [...] Det vil for eksempel være nødvendigt for at afskaffe det lammende princip om enstemmighed i EU\'s udenrigspolitik eller for at skabe en ambitiøs europæisk sundheds- eller industripolitik. Derfor kan man - ligesom EU-Parlamentet - beklage den manglende vilje til mere europæisk demokrati og integration. Men som den bulgarske sociolog Ivan Krastev tørt har konstateret, har vi det EU, vi nu engang har, fordi nationalstaterne ikke vil afgive mere magt. Der er simpelt hen ikke folkelig opbakning til det."</div>',
         sources: [{ medium: "Information", pageNumber: "2", day: null }],
@@ -47,7 +47,7 @@ const summaryCollections = [
         title:
           "Staten kan have brugt over en milliard kroner i år i klimarabat til biler, der ikke er grønne",
         category: "Handel",
-        profile: "Andre Historier",
+        profile: "Andre historier",
         summary:
           '<div>Information skriver, at et nyt svar fra skatteminister Morten Bødskov (S) tyder på, at staten i årets fire første måneder har givet mere end en milliard i afgiftsrabat til pluginhybridbiler, som EU fra 2026 ikke anser for at være grønne. Salget af hybridbiler i Danmark er fordoblet sammenlignet med 2020. Udviklingen skyldes, at pluginhybrider får en skatterabat, fordi de betegnes som grønne i den bilaftale, som regeringen og støttepartierne indgik i december. Selv om pluginhybriderne kritiseres for slet ikke at være klimavenlige, er de nemlig helt centrale for at nå det politiske mål om én million grønne biler i 2020. Men mens salget har kronede dage, har EU-Kommissionen for nylig besluttet, at pluginhybrider fra 2026 ikke længere må bære mærkatet "grønne", da de også udleder CO2. Danmark yder altså støtte til noget, som EU om fem år ikke længere anser som en grøn løsning. Information har spurgt skatteminister Morten Bødskov, hvordan han forholder sig til, at der kan være brugt 1,1 milliarder kroner på klimarabat til pluginhybrider i år, og om denne pris står mål med klimaeffekten ved pluginhybrider. "Aftalepartierne er enige om at mødes igen i 2025 for at drøfte udviklingen og se på, om der er behov for at justere aftalen," skriver ministeren i et svar til Information.</div>',
         sources: [
@@ -100,7 +100,7 @@ const summaryCollections = [
       {
         title: "Den russiske Sputnik-vaccine klarer kravet i EU-laboratorium",
         category: "Sundhed",
-        profile: "Andre Historier",
+        profile: "Andre historier",
         summary:
           "<div>Berlingske skriver, at Slovakiet endnu engang melder sig klar til at tage den russiske Sputnikvaccine i brug. Det sker efter positiv test i et uafhængigt EU-laboratorium. Dog er vaccinen stadig ikke godkendt af Det Europæiske Lægemiddelagentur (EMA). Slovakiet er et af de EU-lande, der er blevet hårdest ramt af coronapandemiens tredje bølge. Der har i Slovakiet været hårdt politisk pres for at tage den russiske vaccine i brug, som har ligget på slovakiske lagre siden 1. marts. Ungarn har allerede nødgodkendt Sputnik V-vaccinen og har vaccineret foreløbig 1,4 millioner borgere med den. Slovakiet og de øvrige EU-lande har dog hidtil ventet på den officielle godkendelse fra EMA. I månedsvis har Tyskland ligget i forhandlinger om at købe og endda producere vaccinen. Ud over den økonomiske gevinst ville det være en politisk vigtig milepæl for Sputnik V at få det blå stempel fra det største land i EU. Det er usikkert, hvilke test Sputnik V har gennemgået på det ungarske laboratorium, ligesom der er modstridende meldinger om, hvornår Slovakiet kan tage vaccinen i brug.</div>",
         sources: [{ medium: "Berlingske", pageNumber: "12", day: null }],
@@ -109,7 +109,7 @@ const summaryCollections = [
         title:
           "Økonomisk demokrati kulsejlede i 70'erne. I dag er der brug for internationale løsninger",
         category: "Økonomi",
-        profile: "Andre Historier",
+        profile: "Andre historier",
         summary:
           '<div>Information bringer en kronik af Mogens Lykketoft, forhenværende udenrigsminister og formand for Socialdemokratiet. Han skriver blandt andet: "Pelle Dragsted påpeger, at det danske samfund hverken er en ureguleret markedsøkonomi eller en rendyrket planøkonomi. Markedskræfterne - ejendomsretten - indrammes af lovgivning, der beskytter arbejdsmiljø, natur og klima, regler mod vild finansspekulation, huslejeregulering mv. En stor offentlig sektor beskæftiger en tredjedel af arbejdsstyrken uden for markedet og privatkapitalismen. [...] Pelle Dragsted anerkender, at private virksomheder fortsat skal bidrage til at skabe udvikling og velstand. Men efter fyrre års global nyliberalisme er fællesskabet i alle dets former trængt tilbage. Derfor leder han efter nye veje til at udbrede demokratiske ejerformer og bremse for privatisering og udlicitering. [...] Europæiske socialdemokratier får kritik for at have udvisket deres profil ved at medvirke til neoliberalistisk politik og dermed tabe terræn til de populistiske oprør. Mette Frederiksen får behersket ros for at lægge op til en ny social kontrakt. Men - siger Dragsted - socialdemokraterne er ikke klar til at tage et mere frontalt opgør med ejerskab og magt. [...] Magtbalancen mellem demokrati og kapital afgøres i dag hverken i den enkelte virksomhed eller i det enkelte land. Her må vi forlade os på internationalt samarbejde som det, præsident Biden overraskende lige har spillet ud med - om massiv indsats mod skatteflugt og skattely og fælles bund under selskabsskatten. Måske kan det suppleres med en særlig formueskat på de superrige. Klimasagen må fremmes ved fælles massiv forsknings- og udviklingsindsats fra erhvervsliv og stat og optrapning til høj beskatning af klimagasser. Her skal EU spille en afgørende rolle. Og her er Pelle Dragsted fåmælt, fordi han stadig er hæmmet i sin tilgang af Enhedslistens anakronistiske EU-modstand."</div>',
         sources: [{ medium: "Information", pageNumber: "16-17", day: null }],
@@ -117,7 +117,7 @@ const summaryCollections = [
       {
         title: "EU's velmenende parodi på sig selv",
         category: "Institutionelle anliggender",
-        profile: "Andre Historier",
+        profile: "Andre historier",
         summary:
           '<div>I Informations leder kan man i dag blandt andet læse: "I søndags skød Macron med et års coronaforsinkelse selv konferencen i gang i Strasbourg. Alle interesserede EU-borgere kan nu indlevere deres forslag på en digital platform og deltage i borgermøder, der senere samles til et decideret borgerting. Med kategorier som klima, sundhed, økonomi, digitalisering og indvandring vil processen løbe frem til foråret 2021, hvor netop Frankrig sidder på EU-formandskabet. Det er velmenende. Men det er ikke videre lovende. Både fordi Macron har set temmelig stort på sit eget franske borgertings forslag til klimatiltag. Og især fordi EU med konferencen har skabt en parodi på sit demokratiske underskud og sine komplicerede politiske processer. [...] Det vil for eksempel være nødvendigt for at afskaffe det lammende princip om enstemmighed i EU\'s udenrigspolitik eller for at skabe en ambitiøs europæisk sundheds- eller industripolitik. Derfor kan man - ligesom EU-Parlamentet - beklage den manglende vilje til mere europæisk demokrati og integration. Men som den bulgarske sociolog Ivan Krastev tørt har konstateret, har vi det EU, vi nu engang har, fordi nationalstaterne ikke vil afgive mere magt. Der er simpelt hen ikke folkelig opbakning til det."</div>',
         sources: [{ medium: "Information", pageNumber: "2", day: null }],
@@ -125,7 +125,7 @@ const summaryCollections = [
       {
         title: "Corona og minkkollaps kostede milliarder af eksportkroner",
         category: "Handel",
-        profile: "Andre Historier",
+        profile: "Andre historier",
         summary:
           "<div>Jyllands-Posten skriver, at kollapset i minkbranchen og coronakrisen har fået dansk eksport af landbrugsprodukter og fødevarer til at falde med næsten to milliarder kroner i 2020. Det viser opgørelser fra brancheorganisationen Landbrug &amp; Fødevarer. På mange vigtige eksportmarkeder forblev restauranter, hoteller og resten af foodservicesektoren lukket i store dele af 2020. Værdien af slagteriernes eksport til de øvrige EU-lande fik et ekstra tryk, da der i efteråret 2020 udbrød svinepest i Tyskland. Udbruddet afskar de tyske slagterier fra eksport ud af EU, hvilket resulterede i at nærmarkederne i Europa blev oversvømmet af tysk svinekød. På den positive side er 2021 begyndt godt for fødevareklyngens eksport, selv om især markerne i Europa stadig er præget af nedlukninger i foodservicesektoren.&nbsp;</div>",
         sources: [
@@ -136,7 +136,7 @@ const summaryCollections = [
         title:
           "Grønne ngo'er til regeringen: Drop støtte til luftfarten, men tag hånd om personalet",
         category: "Klima",
-        profile: "Andre Historier",
+        profile: "Andre historier",
         summary:
           '<div>Poul Kattler, Rådet for Bæredygtig Trafik, Johnny Frank Nielsen, Bevar Jordforbindelsen, Ivan, Lund Pedersen, Noah-Trafik, Jens Kruhøffer, Klimabevægelsen, Gunnar Olesen, Miljøorganisationen Vedvarende Energi, og Helene Hagel, Greenpeace, skriver i et debatindlæg på Altinget blandt andet: "Feriesæsonen står for døren og store dele af rejsebranchen vil gerne flyve danskerne langt væk så snart vaccinationerne er på plads. [...] Antallet af flyvninger fra Danmark er tre gange større end gennemsnittet i andre EU-lande, og er kun overgået af østater som Malta, Cypern, Irland og lilleputstaten Luxembourg. Samtidig forholder flybranchen sig ikke til den største del af flyenes klimabelastning, nemlig vanddamp og partikler. [...] Vi skal ikke tilbage til den afgiftsfrie flyvning; men indføre flyafgifter som vores nabolande. Folketinget skal have afgifter klar, der er store nok til at dæmpe lysten til at flyve, som i vore nabolande. En flyafgift vil primært ramme højindkomstgrupper, der bruger flest penge på flyvning, både i kroner og øre, men også i forhold til deres indtægt. Indenfor EU flyver 75 procent en gang om året eller mindre, mens to procent flyver mindst en gang hver 14. dag. [...] Danmark skal søge aktivt samarbejde med vore nabolande og med EU for fælles afgifter for luftfarten, i første omgang med afgifter som i Norge, Sverige og Tyskland og på sigt i en større kreds. Samtidig skal Danmark arbejde aktivt i EU om en europæisk grøn transportstrategi. Korte flyvninger, som dansk indenrigs, må på ret kort sigt kunne gøres overflødige."</div>',
         sources: [{ medium: "Altinget", pageNumber: null, day: null }],
