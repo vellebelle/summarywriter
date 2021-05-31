@@ -183,27 +183,68 @@ export default {
       });
     },
     downloadWordFile(collectionIndex) {
-      this.allSummaries = '';
+      // REMEMBER TO SORT SO TOP STORIES ARE ON THE TOP, THEN PRIO AND ANDRE
+      this.allSummaries = "";
       const header = "<html><head><meta charset='utf-8'></head><body>";
       const footer = "</body></html>";
+
+      let topCounter = 0;
+      let prioCounter = 0;
+      let otherCounter = 0;
+
+      const topStoriesStr =
+        "<strong><u/>Dagens EU-tophistorier</u></strong><br><br>";
+      const prioStoriesStr =
+        "<strong><u/>Andre EU-historier: Prioriterede emner</u></strong><br><br>";
+      const otherStoriesStr =
+        "<strong><u/>Andre EU-historier</u></strong><br><br>";
+
       const collection = this.summaryCollections[collectionIndex].summaries;
 
       collection.forEach((item) => {
+        // Check for number of different profile occurances
+        if (item.profile === "Tophistorier") {
+          topCounter++;
+        }
+        if (item.profile === "Prioriterede emner") {
+          prioCounter++;
+        }
+        if (item.profile === "Andre Historier") {
+          otherCounter++;
+        }
+
         let sources = this.sortSources(item.sources);
-        console.log('BEFORE:', item.summary);
+        console.log(item.profile);
         const textContent = item.summary
           .replaceAll("&nbsp;", "")
           .replaceAll("<div>", "<br>")
           .replaceAll("</div>", "");
-        console.log('AFTER:', textContent);
-        const fullSummary = `<strong>${item.category}: ${item.title}</strong>${textContent}<br><em>${sources}</em><br><br>`;
-        this.allSummaries += fullSummary;
 
+        const fullSummary = `${
+          item.profile === "Tophistorier" && topCounter === 1
+            ? topStoriesStr
+            : ""
+        }
+        ${
+          item.profile === "Prioriterede emner" && prioCounter === 1
+            ? prioStoriesStr
+            : ""
+        }
+        ${
+          item.profile === "Andre Historier" && otherCounter === 1
+            ? otherStoriesStr
+            : ""
+        }
+        <strong>${item.category}: ${
+          item.title
+        }</strong>${textContent}<br><em>${sources}</em><br><br>`;
+        this.allSummaries += fullSummary;
       });
       const allSummariesDocument = `${header}${this.allSummaries}${footer}`;
-      const convertedSummariesDocument = window.htmlDocx.asBlob(allSummariesDocument);
+      const convertedSummariesDocument = window.htmlDocx.asBlob(
+        allSummariesDocument
+      );
       saveAs(convertedSummariesDocument, "filename.docx");
-      
     },
   },
   computed: {
