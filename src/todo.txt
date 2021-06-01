@@ -64,3 +64,17 @@ pct.
 %
 kr.
 f.eks.
+
+
+
+function highlightKeywordsInText(text, keywords) {
+      const regex = new RegExp(keywords.join("|"), "gi");
+      text = text.replace(regex, function replace(match) {
+        // wrap the found strings
+        return "<em>" + match + "</em>";
+      });
+    }
+undefined
+highlightKeywordsInText('Der er f.eks. mange fede hunde i Danmark, ca. 22 pct., der bor i hhv. huse og lejligheder.', ["»", "«", "hhv.", "mio.", "mia.", "bl.a.", "pct.", "%", "kr.", "f.eks.", "ca."])
+undefined
+console.log(highlightKeywordsInText('Der er f.eks. mange fede hunde i Danmark, ca. 22 pct., der bor i hhv. huse og lejligheder.', ["»", "«", "hhv.", "mio.", "mia.", "bl.a.", "pct.", "%", "kr.", "f.eks.", "ca."]));

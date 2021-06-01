@@ -163,6 +163,18 @@ export default {
     mainFormValid: true,
     titleRules: [(v) => !!v || "Indtast en titel"],
     categoryRules: [(v) => !!v || "Vælg en kategori"],
+    keywords: [
+      "»",
+      "«",
+      "hhv.",
+      "mio.",
+      "mia.",
+      "bl.a.",
+      "pct.",
+      "%",
+      "kr.",
+      "f.eks.",
+    ],
   }),
   methods: {
     addSource() {
@@ -225,9 +237,6 @@ export default {
       this.editor.setSelectedRange(range);
       this.editor.insertString(selection.toLowerCase());
     },
-    onTrixChange(event) {
-      console.log("Changed", event);
-    },
     removeFormattingOnPaste(event) {
       const div = document.createElement("div");
 
@@ -247,9 +256,18 @@ export default {
       // Insert text
       event.target.editor.insertString(text);
     },
+    highlightKeywordsInText(text, keywords) {
+      const regex = new RegExp(keywords.join("|"), "gi");
+      text = text.replace(regex, function replace(match) {
+        // wrap the found strings
+        return "<em>" + match + "</em>";
+      });
+    },
     onTrixPaste(event) {
       this.removeFormattingOnPaste(event);
-      console.log("Pasted!", event);
+    },
+    onTrixChange(event) {
+      console.log("Changed", event);
     },
   },
   mounted() {
@@ -277,7 +295,7 @@ export default {
   display: none;
 }
 .trix-button-row {
-  display: none;
+  display: none !important;
 }
 em {
   background: yellow;
