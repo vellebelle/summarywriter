@@ -8,8 +8,8 @@
               :key="summary.title"
               @click="displaySummary(summary)"
               :class="{
-                prio: summary.profile === 'Prioriterede emner',
-                top: summary.profile === 'Tophistorier',
+                prio: summary.profile === '2',
+                top: summary.profile === '1',
               }"
             >
               <v-list-item-content>
@@ -42,7 +42,7 @@
       </v-col>
       <v-col class="full-height-container">
         <div v-if="currentlySelectedSummary">
-          <span>Profil: {{ currentlySelectedSummary.profile }}</span>
+          <span>Profil: {{ profiles[currentlySelectedSummary.profile] }}</span>
           <h3 class="mb-3">
             {{ currentlySelectedSummary.category }}:
             {{ currentlySelectedSummary.title }}
@@ -75,6 +75,11 @@ export default {
   },
   data() {
     return {
+      profiles: {
+        '1': 'Dagens EU-tophistorier',
+        '2': 'Andre EU-historier: Prioriterede emner',
+        '3': 'Andre EU-historier'
+      },
       summaryCollection: collection,
       currentlySelectedSummary: null,
       collectionID: null,
@@ -109,26 +114,11 @@ export default {
   computed: {
     summaries() {
       let collection = this.$store.getters.getSummaryCollections;
-      let collectionSummaries =
-        collection[this.$store.getters.getCurrentlySelectedCollectionID]
-          .summaries;
-      return collectionSummaries.sort((a, b) => {
-        if (a.profile > b.profile) {
-          return -1;
-        } 
+      let collectionSummaries = collection[this.$store.getters.getCurrentlySelectedCollectionID].summaries;
+      return collectionSummaries.sort((a,b) => {
+        
+        return (a.profile > b.profile ? 1 : -1);
       });
-
-      // let collection = this.$store.getters.getSummaryCollections;
-      // let collectionSummaries =
-      //   collection[this.$store.getters.getCurrentlySelectedCollectionID]
-      //     .summaries;
-      // return collectionSummaries.sort((a) => {
-      //   if (a.profile === "Tophistorier") {
-      //     return -2;
-      //   } else if (a.profile === "Prioriterede emner") {
-      //     return -1;
-      //   }
-      // });
     },
   },
   filters: {

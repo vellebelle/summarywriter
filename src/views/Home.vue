@@ -199,17 +199,19 @@ export default {
       const otherStoriesStr =
         "<strong><u/>Andre EU-historier</u></strong><br><br>";
 
-      const collection = this.summaryCollections[collectionIndex].summaries;
+      const collection = this.summaryCollections[collectionIndex].summaries.sort((a,b) => {
+        return (a.profile > b.profile ? 1 : -1);
+      });
 
       collection.forEach((item) => {
         // Check for number of different profile occurances
-        if (item.profile === "Tophistorier") {
+        if (item.profile === "1") {
           topCounter++;
         }
-        if (item.profile === "Prioriterede emner") {
+        if (item.profile === "2") {
           prioCounter++;
         }
-        if (item.profile === "Andre Historier") {
+        if (item.profile === "3") {
           otherCounter++;
         }
 
@@ -221,17 +223,17 @@ export default {
           .replaceAll("</div>", "");
 
         const fullSummary = `${
-          item.profile === "Tophistorier" && topCounter === 1
+          item.profile === "1" && topCounter === 1
             ? topStoriesStr
             : ""
         }
         ${
-          item.profile === "Prioriterede emner" && prioCounter === 1
+          item.profile === "2" && prioCounter === 1
             ? prioStoriesStr
             : ""
         }
         ${
-          item.profile === "Andre Historier" && otherCounter === 1
+          item.profile === "3" && otherCounter === 1
             ? otherStoriesStr
             : ""
         }

@@ -4,12 +4,12 @@
       <v-col md="8" sm="12">
         <v-form ref="mainForm" lazy-validation v-model="mainFormValid">
           <v-radio-group v-model="profile" row required>
-            <v-radio label="Andre historier" value="Andre historier"></v-radio>
+            <v-radio label="Andre historier" value="3"></v-radio>
             <v-radio
               label="Prioriterede emner"
-              value="Prioriterede emner"
+              value="2"
             ></v-radio>
-            <v-radio label="Tophistorier" value="Tophistorier"></v-radio>
+            <v-radio label="Tophistorier" value="1"></v-radio>
           </v-radio-group>
 
           <v-row>
@@ -106,7 +106,7 @@ export default {
   data: () => ({
     editor: null,
     editorContent: '',
-    profile: 'Andre historier',
+    profile: '3',
     title: '',
     pageNumber: null,
     category: '',
