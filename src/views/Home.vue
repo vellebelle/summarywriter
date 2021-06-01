@@ -182,29 +182,6 @@ export default {
         this.$store.dispatch("addNewCollection", collection);
       });
     },
-    sortProfiles(array) {
-     
-        const returnValue = [];
-        array.forEach((item) => {
-          if (item.profile === "Tophistorier") {
-            returnValue.push(item);
-          }
-        });
-
-        array.forEach((item) => {
-          if (item.profile === "Prioriterede emner") {
-            returnValue.push(item);
-          }
-        });
-
-        array.forEach((item) => {
-          if (item.profile === "Andre historier") {
-            returnValue.push(item);
-          }
-        });
-
-        return returnValue;
-    },
     downloadWordFile(collectionIndex) {
       // REMEMBER TO SORT SO TOP STORIES ARE ON THE TOP, THEN PRIO AND ANDRE
       this.allSummaries = "";
@@ -222,10 +199,8 @@ export default {
       const otherStoriesStr =
         "<strong><u/>Andre EU-historier</u></strong><br><br>";
 
-      const collection = this.sortProfiles(
-        this.summaryCollections[collectionIndex].summaries
-      );
-      console.log(collection);
+      const collection = this.summaryCollections[collectionIndex].summaries;
+
       collection.forEach((item) => {
         // Check for number of different profile occurances
         if (item.profile === "Tophistorier") {
@@ -234,7 +209,7 @@ export default {
         if (item.profile === "Prioriterede emner") {
           prioCounter++;
         }
-        if (item.profile === "Andre historier") {
+        if (item.profile === "Andre Historier") {
           otherCounter++;
         }
 
@@ -256,7 +231,7 @@ export default {
             : ""
         }
         ${
-          item.profile === "Andre historier" && otherCounter === 1
+          item.profile === "Andre Historier" && otherCounter === 1
             ? otherStoriesStr
             : ""
         }
