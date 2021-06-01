@@ -1,6 +1,11 @@
 <template>
   <v-container fluid>
+    <v-col v-if="!summaries.length">
+        <h2 class="h2 text-center">Der er ingen resumeer i denne samling</h2>
+        <p class="h3 text-center"> Tilføj ved at klikke på det røde plus</p>
+      </v-col>
     <v-row>
+      
       <v-col class="full-height-container pa-0">
         <v-list three-line>
           <template v-for="(summary, index) in summaries">

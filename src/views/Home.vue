@@ -3,6 +3,11 @@
     <h1 class="mb-5">Summary Collections</h1>
 
     <v-row>
+      <v-col v-if="!summaryCollections.length">
+
+        <h2 class="h2 text-center">Der er ingen summary collections</h2>
+        <p class="h3 text-center"> Tilføj en ny samling ved at klikke på det røde plus</p>
+      </v-col>
       <v-col
         v-for="(collection, index) in summaryCollections"
         :key="collection.title"
