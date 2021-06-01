@@ -5,10 +5,7 @@
         <v-form ref="mainForm" lazy-validation v-model="mainFormValid">
           <v-radio-group v-model="profile" row required>
             <v-radio label="Andre historier" value="3"></v-radio>
-            <v-radio
-              label="Prioriterede emner"
-              value="2"
-            ></v-radio>
+            <v-radio label="Prioriterede emner" value="2"></v-radio>
             <v-radio label="Tophistorier" value="1"></v-radio>
           </v-radio-group>
 
@@ -97,75 +94,75 @@
 </template>
 
 <script>
-import VueTrix from 'vue-trix';
+import VueTrix from "vue-trix";
 export default {
-  name: 'AddSummary',
+  name: "AddSummary",
   components: {
     VueTrix,
   },
   data: () => ({
     editor: null,
-    editorContent: '',
-    profile: '3',
-    title: '',
+    editorContent: "",
+    profile: "3",
+    title: "",
     pageNumber: null,
-    category: '',
+    category: "",
     categories: [
-      'Institutionelle anliggender',
-      'Interne anliggender',
-      'Retlige anliggender',
-      'Finansielle anliggender',
-      'Grundlæggende rettigheder',
-      'Udenrigspolitik',
-      'Socialpolitik',
-      'Naboskabspolitik',
-      'Arbejdsmarkedspolitik',
-      'Sikkerhedspolitik',
-      'Frihandelsaftale med USA',
-      'Det digitale indre marked',
-      'Udvidelse',
-      'Økonomi',
-      'Beskæftigelse, vækst og investeringer',
-      'Landbrug',
-      'Migration',
-      'Handel',
-      'Kultur',
-      'Konkurrence',
-      'Sundhed',
-      'Klima',
-      'Administration',
+      "Institutionelle anliggender",
+      "Interne anliggender",
+      "Retlige anliggender",
+      "Finansielle anliggender",
+      "Grundlæggende rettigheder",
+      "Udenrigspolitik",
+      "Socialpolitik",
+      "Naboskabspolitik",
+      "Arbejdsmarkedspolitik",
+      "Sikkerhedspolitik",
+      "Frihandelsaftale med USA",
+      "Det digitale indre marked",
+      "Udvidelse",
+      "Økonomi",
+      "Beskæftigelse, vækst og investeringer",
+      "Landbrug",
+      "Migration",
+      "Handel",
+      "Kultur",
+      "Konkurrence",
+      "Sundhed",
+      "Klima",
+      "Administration",
     ],
     media: [
-      'Politiken',
-      'Berlingske',
-      'B.T.',
-      'Jyllands-Posten',
-      'Kristeligt Dagblad',
-      'Information',
-      'Ekstra Bladet',
-      'Børsen',
-      'Altinget',
-      'Weekendavisen',
+      "Politiken",
+      "Berlingske",
+      "B.T.",
+      "Jyllands-Posten",
+      "Kristeligt Dagblad",
+      "Information",
+      "Ekstra Bladet",
+      "Børsen",
+      "Altinget",
+      "Weekendavisen",
     ],
     selectedDay: null,
     weekdays: [
-      'Ingen',
-      'Mandag',
-      'Tirsdag',
-      'Onsdag',
-      'Torsdag',
-      'Fredag',
-      'Lørdag',
-      'Søndag',
+      "Ingen",
+      "Mandag",
+      "Tirsdag",
+      "Onsdag",
+      "Torsdag",
+      "Fredag",
+      "Lørdag",
+      "Søndag",
     ],
-    selectedPaper: '',
+    selectedPaper: "",
     sources: [],
     sourceFormValid: true,
-    mediumRules: [(v) => !!v || 'Vælg medie'],
-    noSourcesErrorText: '',
+    mediumRules: [(v) => !!v || "Vælg medie"],
+    noSourcesErrorText: "",
     mainFormValid: true,
-    titleRules: [(v) => !!v || 'Indtast en titel'],
-    categoryRules: [(v) => !!v || 'Vælg en kategori'],
+    titleRules: [(v) => !!v || "Indtast en titel"],
+    categoryRules: [(v) => !!v || "Vælg en kategori"],
   }),
   methods: {
     addSource() {
@@ -173,7 +170,7 @@ export default {
         this.sources.push({
           medium: this.selectedPaper,
           pageNumber: this.pageNumber,
-          day: this.selectedDay === '(Ingen)' ? null : this.selectedDay,
+          day: this.selectedDay === "(Ingen)" ? null : this.selectedDay,
         });
         // Reset values
         this.selectedDay = null;
@@ -181,7 +178,7 @@ export default {
         this.pageNumber = null;
 
         // Reset form and error msg
-        this.noSourcesErrorText = '';
+        this.noSourcesErrorText = "";
         this.$refs.sourceForm.reset();
       }
     },
@@ -194,10 +191,10 @@ export default {
       if (this.$refs.mainForm.validate()) {
         // Check if there are sources added
         if (this.sources.length === 0) {
-          this.noSourcesErrorText = 'Husk at tilføje mindst een kilde';
+          this.noSourcesErrorText = "Husk at tilføje mindst een kilde";
           return;
         }
-        this.$store.dispatch('addSingleSummaryToCollection', {
+        this.$store.dispatch("addSingleSummaryToCollection", {
           title: this.title,
           category: this.category,
           profile: this.profile,
@@ -205,20 +202,20 @@ export default {
           sources: this.sources,
         });
         this.$refs.mainForm.reset();
-        this.noSourcesErrorText = '';
-        this.$router.push('Collection');
+        this.noSourcesErrorText = "";
+        this.$router.push("Collection");
       }
     },
     insertQuoteBreak() {
-      this.editor.insertString('[...]');
+      this.editor.insertString("[...]");
     },
     removeLineBreaks() {
       const range = this.editor.getSelectedRange();
       let selection = this.editor.getDocument().getStringAtRange(range);
       // Remove line breaks
-      selection = selection.replace(/(\r\n|\n|\r)/gm, ' ');
+      selection = selection.replace(/(\r\n|\n|\r)/gm, " ");
       // Remove double spaces
-      selection = selection.replace(/\s+/g, ' ');
+      selection = selection.replace(/\s+/g, " ");
       this.editor.setSelectedRange(range);
       this.editor.insertString(selection);
     },
@@ -229,20 +226,40 @@ export default {
       this.editor.insertString(selection.toLowerCase());
     },
     onTrixChange(event) {
-      console.log('Changed', event);
+      console.log("Changed", event);
+    },
+    removeFormattingOnPaste(event) {
+      const div = document.createElement("div");
+
+      if (event.paste.string) {
+        div.innerHTML = event.paste.string;
+      }
+      if (event.paste.html) {
+        div.innerHTML = event.paste.html;
+      }
+
+      let text = div.textContent || div.innerText || "";
+      text = text.replace(/\n/g, "");
+      //console.log(text);
+
+      // Undo the paste
+      event.target.editor.undo();
+      // Insert text
+      event.target.editor.insertString(text);
     },
     onTrixPaste(event) {
-      console.log('Pasted!', event);
+      this.removeFormattingOnPaste(event);
+      console.log("Pasted!", event);
     },
   },
   mounted() {
     this.editor = this.$refs.editor.$refs.trix.editor;
-    document.addEventListener('trix-change', this.onTrixChange);
-    document.addEventListener('trix-paste', this.onTrixPaste);
+    document.addEventListener("trix-change", this.onTrixChange);
+    document.addEventListener("trix-paste", this.onTrixPaste);
   },
   beforeDestroy() {
-    document.removeEventListener('trix-change', this.onTrixChange);
-    document.removeEventListener('trix-paste', this.onTrixPaste);
+    document.removeEventListener("trix-change", this.onTrixChange);
+    document.removeEventListener("trix-paste", this.onTrixPaste);
   },
 };
 </script>

@@ -4,9 +4,10 @@
 
     <v-row>
       <v-col v-if="!summaryCollections.length">
-
         <h2 class="h2 text-center">Der er ingen summary collections</h2>
-        <p class="h3 text-center"> Tilføj en ny samling ved at klikke på det røde plus</p>
+        <p class="h3 text-center">
+          Tilføj en ny samling ved at klikke på det røde plus
+        </p>
       </v-col>
       <v-col
         v-for="(collection, index) in summaryCollections"
@@ -197,6 +198,8 @@ export default {
       let prioCounter = 0;
       let otherCounter = 0;
 
+      const collectionTitle = `<strong>${this.summaryCollections[collectionIndex].title}</strong><br><br>`;
+
       const topStoriesStr =
         "<strong><u/>Dagens EU-tophistorier</u></strong><br><br>";
       const prioStoriesStr =
@@ -204,11 +207,13 @@ export default {
       const otherStoriesStr =
         "<strong><u/>Andre EU-historier</u></strong><br><br>";
 
-      const collection = this.summaryCollections[collectionIndex].summaries.sort((a,b) => {
-        return (a.profile > b.profile ? 1 : -1);
+      const collection = this.summaryCollections[
+        collectionIndex
+      ].summaries.sort((a, b) => {
+        return a.profile > b.profile ? 1 : -1;
       });
 
-      collection.forEach((item) => {
+      collection.forEach((item, i) => {
         // Check for number of different profile occurances
         if (item.profile === "1") {
           topCounter++;
@@ -227,26 +232,17 @@ export default {
           .replaceAll("<div>", "<br>")
           .replaceAll("</div>", "");
 
-        const fullSummary = `${
-          item.profile === "1" && topCounter === 1
-            ? topStoriesStr
-            : ""
-        }
-        ${
-          item.profile === "2" && prioCounter === 1
-            ? prioStoriesStr
-            : ""
-        }
-        ${
-          item.profile === "3" && otherCounter === 1
-            ? otherStoriesStr
-            : ""
-        }
+        const fullSummary = `
+        ${i === 0 ? collectionTitle : ""}
+        ${item.profile === "1" && topCounter === 1 ? topStoriesStr : ""}
+        ${item.profile === "2" && prioCounter === 1 ? prioStoriesStr : ""}
+        ${item.profile === "3" && otherCounter === 1 ? otherStoriesStr : ""}
         <strong>${item.category}: ${
           item.title
         }</strong>${textContent}<br><em>${sources}</em><br><br>`;
         this.allSummaries += fullSummary;
       });
+
       const allSummariesDocument = `${header}${this.allSummaries}${footer}`;
       const convertedSummariesDocument = window.htmlDocx.asBlob(
         allSummariesDocument
