@@ -75,7 +75,7 @@
           >Tilføj Resumé</v-btn
         >
         <v-btn @click="highlightKeywords">Show</v-btn>
-        <v-btn @click="removeHighlights">Hide</v-btn>
+        <v-btn @click="removeHighlightsFromEditor">Hide</v-btn>
         
         
 
@@ -219,7 +219,7 @@ export default {
           title: this.title,
           category: this.category,
           profile: this.profile,
-          summary: this.editorContent,
+          summary: this.removeHighlights(this.editorContent),
           sources: this.sources,
         });
         this.$refs.mainForm.reset();
@@ -273,8 +273,11 @@ export default {
       //this.editor.insertString(text);
       
     },
-    removeHighlights() {
+    removeHighlightsFromEditor() {
       this.editorContent = this.editorContent.replaceAll('<em>', '').replaceAll('</em>', '');
+    },
+    removeHighlights(text) {
+      return text.replaceAll('<em>', '').replaceAll('</em>', '');
     },
     onTrixPaste(event) {
       this.removeFormattingOnPaste(event);
@@ -288,7 +291,7 @@ export default {
       if (val) {
         this.highlightKeywords();
       } else {
-        this.removeHighlights();
+        this.removeHighlightsFromEditor();
       }
     }
   },
@@ -320,11 +323,8 @@ export default {
   display: none !important;
 }
 em {
-  background: yellow;
+  background: rgb(92, 232, 199);
   font-style: normal;
 }
 
-.highlight {
-  background: pink;
-}
 </style>
