@@ -197,8 +197,8 @@ export default {
       let topCounter = 0;
       let prioCounter = 0;
       let otherCounter = 0;
-
-      const collectionTitle = `<strong>${this.summaryCollections[collectionIndex].title}</strong><br><br>`;
+      const collectionTitle = this.summaryCollections[collectionIndex].title;
+      const collectionTitleFormatted = `<strong>${collectionTitle}</strong><br><br>`;
 
       const topStoriesStr =
         "<strong><u/>Dagens EU-tophistorier</u></strong><br><br>";
@@ -233,7 +233,7 @@ export default {
           .replaceAll("</div>", "");
 
         const fullSummary = `
-        ${i === 0 ? collectionTitle : ""}
+        ${i === 0 ? collectionTitleFormatted : ""}
         ${item.profile === "1" && topCounter === 1 ? topStoriesStr : ""}
         ${item.profile === "2" && prioCounter === 1 ? prioStoriesStr : ""}
         ${item.profile === "3" && otherCounter === 1 ? otherStoriesStr : ""}
@@ -247,7 +247,7 @@ export default {
       const convertedSummariesDocument = window.htmlDocx.asBlob(
         allSummariesDocument
       );
-      saveAs(convertedSummariesDocument, "filename.docx");
+      saveAs(convertedSummariesDocument, collectionTitle);
     },
   },
   computed: {

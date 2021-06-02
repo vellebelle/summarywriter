@@ -74,9 +74,16 @@
         <v-btn @click="addSummary" depressed color="primary" class="mt-4"
           >Tilføj Resumé</v-btn
         >
+        <v-btn @click="highlightKeywords">Show</v-btn>
+        <v-btn @click="removeHighlights">Hide</v-btn>
+        
+        
+
+
         <div class="red--text mt-3">{{ noSourcesErrorText }}</div>
       </v-col>
       <v-col md="4" sm="12" class="sources-list">
+        <v-switch v-model="showKeywords" label="Markér forkortelser mv."></v-switch>
         <h3 class="mt-5 subtitle-1">Kilder</h3>
         <ul>
           <li v-for="(source, i) in sources" :key="i">
@@ -163,6 +170,7 @@ export default {
     mainFormValid: true,
     titleRules: [(v) => !!v || "Indtast en titel"],
     categoryRules: [(v) => !!v || "Vælg en kategori"],
+    showKeywords: false,
     keywords: [
       "»",
       "«",
@@ -174,6 +182,7 @@ export default {
       "%",
       "kr.",
       "f.eks.",
+      "ca."
     ],
   }),
   methods: {
@@ -256,12 +265,16 @@ export default {
       // Insert text
       event.target.editor.insertString(text);
     },
-    highlightKeywordsInText(text, keywords) {
-      const regex = new RegExp(keywords.join("|"), "gi");
-      text = text.replace(regex, function replace(match) {
-        // wrap the found strings
-        return "<em>" + match + "</em>";
+    highlightKeywords() {
+      this.keywords.forEach((word) => {
+        console.log(word);
+        this.editorContent = this.editorContent.replaceAll(word, `<em>${word}</em>`);
       });
+      //this.editor.insertString(text);
+      
+    },
+    removeHighlights() {
+      this.editorContent = this.editorContent.replaceAll('<em>', '').replaceAll('</em>', '');
     },
     onTrixPaste(event) {
       this.removeFormattingOnPaste(event);
@@ -269,6 +282,15 @@ export default {
     onTrixChange(event) {
       console.log("Changed", event);
     },
+  },
+  watch: {
+    showKeywords(val) {
+      if (val) {
+        this.highlightKeywords();
+      } else {
+        this.removeHighlights();
+      }
+    }
   },
   mounted() {
     this.editor = this.$refs.editor.$refs.trix.editor;
@@ -300,5 +322,9 @@ export default {
 em {
   background: yellow;
   font-style: normal;
+}
+
+.highlight {
+  background: pink;
 }
 </style>
