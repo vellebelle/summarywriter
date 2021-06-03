@@ -29,7 +29,7 @@
                     mdi-delete
                   </v-icon></v-btn
                 >
-                <v-btn icon @click="editSummary">
+                <v-btn icon @click="editSummary(summary, index)">
                   <v-icon color="grey lighten-1">
                     mdi-pencil
                   </v-icon>
@@ -109,8 +109,12 @@ export default {
           }
         });
     },
-    editSummary() {
-      console.log("Edit Summary");
+    editSummary(summary, summaryIndex) {
+      this.$store.dispatch('setIsEditingSummary', true);
+      this.$store.dispatch('setSummaryBeingEditedIndex', summaryIndex);
+      this.$store.dispatch('setSummaryBeingEdited', summary);
+      this.$router.push("Add");
+
     },
     addSummary() {
       this.$router.push("Add");
@@ -125,6 +129,9 @@ export default {
         return (a.profile > b.profile ? 1 : -1);
       });
     },
+    isEditingSummary() {
+      return this.$store.getters.isEditingSummary;
+    }
   },
   filters: {
     removeHTMLTags(value) {

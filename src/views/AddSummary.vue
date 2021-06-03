@@ -74,16 +74,14 @@
         <v-btn @click="addSummary" depressed color="primary" class="mt-4"
           >Tilføj Resumé</v-btn
         >
-        <v-btn @click="highlightKeywords">Show</v-btn>
-        <v-btn @click="removeHighlightsFromEditor">Hide</v-btn>
-        
-        
-
 
         <div class="red--text mt-3">{{ noSourcesErrorText }}</div>
       </v-col>
       <v-col md="4" sm="12" class="sources-list">
-        <v-switch v-model="showKeywords" label="Markér forkortelser mv."></v-switch>
+        <v-switch
+          v-model="showKeywords"
+          label="Markér forkortelser mv."
+        ></v-switch>
         <h3 class="mt-5 subtitle-1">Kilder</h3>
         <ul>
           <li v-for="(source, i) in sources" :key="i">
@@ -182,7 +180,7 @@ export default {
       "%",
       "kr.",
       "f.eks.",
-      "ca."
+      "ca.",
     ],
   }),
   methods: {
@@ -207,21 +205,33 @@ export default {
       this.sources.splice(i, 1);
     },
     addSummary() {
-      // ALso check if any sources..
-
+      // Validate sources
       if (this.$refs.mainForm.validate()) {
         // Check if there are sources added
         if (this.sources.length === 0) {
           this.noSourcesErrorText = "Husk at tilføje mindst een kilde";
           return;
         }
-        this.$store.dispatch("addSingleSummaryToCollection", {
-          title: this.title,
-          category: this.category,
-          profile: this.profile,
-          summary: this.removeHighlights(this.editorContent),
-          sources: this.sources,
-        });
+
+        if (!this.isBeingEdited) {
+          this.$store.dispatch("addSingleSummaryToCollection", {
+            title: this.title,
+            category: this.category,
+            profile: this.profile,
+            summary: this.removeHighlights(this.editorContent),
+            sources: this.sources,
+          });
+        } else {
+          this.$store.dispatch("setIsEditingSummary", false);
+           this.$store.dispatch("replaceSingleSummaryInCollection", {
+            title: this.title,
+            category: this.category,
+            profile: this.profile,
+            summary: this.removeHighlights(this.editorContent),
+            sources: this.sources,
+          });
+        }
+
         this.$refs.mainForm.reset();
         this.noSourcesErrorText = "";
         this.$router.push("Collection");
@@ -268,22 +278,41 @@ export default {
     highlightKeywords() {
       this.keywords.forEach((word) => {
         console.log(word);
-        this.editorContent = this.editorContent.replaceAll(word, `<em>${word}</em>`);
+        this.editorContent = this.editorContent.replaceAll(
+          word,
+          `<em>${word}</em>`
+        );
       });
       //this.editor.insertString(text);
-      
     },
     removeHighlightsFromEditor() {
-      this.editorContent = this.editorContent.replaceAll('<em>', '').replaceAll('</em>', '');
+      this.editorContent = this.editorContent
+        .replaceAll("<em>", "")
+        .replaceAll("</em>", "");
     },
     removeHighlights(text) {
-      return text.replaceAll('<em>', '').replaceAll('</em>', '');
+      return text.replaceAll("<em>", "").replaceAll("</em>", "");
     },
     onTrixPaste(event) {
       this.removeFormattingOnPaste(event);
     },
     onTrixChange(event) {
       console.log("Changed", event);
+    },
+    setupSummaryInEditMode() {
+      this.title = this.summaryBeingEdited.title;
+      this.category = this.summaryBeingEdited.category;
+      this.editorContent = this.summaryBeingEdited.summary;
+      this.profile = this.summaryBeingEdited.profile;
+      this.sources = this.summaryBeingEdited.sources;
+    },
+  },
+  computed: {
+    isBeingEdited() {
+      return this.$store.getters.getIsEditingSummary;
+    },
+    summaryBeingEdited() {
+      return this.$store.getters.getSummaryBeingEdited;
     },
   },
   watch: {
@@ -293,6 +322,11 @@ export default {
       } else {
         this.removeHighlightsFromEditor();
       }
+    },
+  },
+  created() {
+    if (this.isBeingEdited) {
+      this.setupSummaryInEditMode();
     }
   },
   mounted() {
@@ -326,5 +360,4 @@ em {
   background: rgb(92, 232, 199);
   font-style: normal;
 }
-
 </style>
