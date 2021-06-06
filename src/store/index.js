@@ -98,6 +98,9 @@ export default new Vuex.Store({
     },
     getSummaryBeingEditedIndex(state) {
       return state.summaryBeingEditedIndex;
+    },
+    getCurrentCollectionTitle(state) {
+      return state.summaryCollectionData[state.currentlySelectedCollectionID].title;
     }
   },
   plugins: [vuexPersist.plugin],
