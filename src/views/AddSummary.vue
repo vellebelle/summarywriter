@@ -74,6 +74,7 @@
         <v-btn @click="addSummary" depressed color="primary" class="mt-4"
           >Tilføj Resumé</v-btn
         >
+        <v-btn @click="cancel" depressed class="mt-4 ml-3">Fortryd</v-btn>
 
         <div class="red--text mt-3">{{ noSourcesErrorText }}</div>
       </v-col>
@@ -204,6 +205,11 @@ export default {
     deleteSource(i) {
       this.sources.splice(i, 1);
     },
+    cancel() {
+      this.$refs.mainForm.reset();
+      this.noSourcesErrorText = "";
+      this.$router.push("Collection");
+    },
     addSummary() {
       // Validate sources
       if (this.$refs.mainForm.validate()) {
@@ -223,7 +229,7 @@ export default {
           });
         } else {
           this.$store.dispatch("setIsEditingSummary", false);
-           this.$store.dispatch("replaceSingleSummaryInCollection", {
+          this.$store.dispatch("replaceSingleSummaryInCollection", {
             title: this.title,
             category: this.category,
             profile: this.profile,
@@ -357,7 +363,7 @@ export default {
   display: none !important;
 }
 em {
-  background: rgb(92, 232, 199);
+  background: rgb(249, 201, 43);
   font-style: normal;
 }
 </style>
