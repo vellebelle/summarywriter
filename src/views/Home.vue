@@ -1,7 +1,7 @@
 <template>
   <v-container>
-    <h1 class="mb-5">Summary Collections</h1>
 
+<v-btn @click="getFirestoreData">Test DB</v-btn>
     <v-row>
       <v-col v-if="!summaryCollections.length">
         <h2 class="h2 text-center">Der er ingen summary collections</h2>
@@ -125,6 +125,8 @@ import Confirm from "@/components/Confirm.vue";
 import testData from "@/assets/summaryCollections";
 import sortSources from "@/mixins/sortSources";
 import { saveAs } from "file-saver";
+import db from "@/firebase/init";
+
 // const htmlDocx = require('html-docx.js');
 export default {
   mixins: [sortSources],
@@ -249,6 +251,12 @@ export default {
       );
       saveAs(convertedSummariesDocument, collectionTitle);
     },
+    getFirestoreData() { 
+      let docRef = db.collection('collections');
+      docRef.get().then(doc => {
+        console.log(doc);
+      });
+    }
   },
   computed: {
     summaryCollections() {

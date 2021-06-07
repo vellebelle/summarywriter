@@ -100,7 +100,12 @@ export default new Vuex.Store({
       return state.summaryBeingEditedIndex;
     },
     getCurrentCollectionTitle(state) {
-      return state.summaryCollectionData[state.currentlySelectedCollectionID].title;
+      if (state.summaryCollectionData[state.currentlySelectedCollectionID].title) {
+        return state.summaryCollectionData[state.currentlySelectedCollectionID].title;
+      } else {
+        return 'ddd';
+      }
+      
     }
   },
   plugins: [vuexPersist.plugin],

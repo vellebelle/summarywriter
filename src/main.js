@@ -5,6 +5,7 @@ import store from './store'
 import vuetify from './plugins/vuetify'
 import 'vue-trix';
 
+
 Vue.config.productionTip = false
 
 new Vue({
