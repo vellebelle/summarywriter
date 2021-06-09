@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import VuexPersist from "vuex-persist";
+import db from '@/firebase/init.js';
 // import testData from '../assets/summaryCollections';
 
 Vue.use(Vuex);
@@ -28,12 +29,36 @@ export default new Vuex.Store({
     },
     addNewCollection(state, payload) {
       state.summaryCollectionData.unshift(payload);
+      // Create new collection in database
+
+      db.collection("summaries").doc(payload.id).set(payload)
+      .then(() => {
+        console.log('Document written');
+      }).catch((err) => {
+        console.error(err);
+      });
     },
     setCurrentlySelectedCollectionID(state, payload) {
       state.currentlySelectedCollectionID = payload;
     },
     addSingleSummaryToCollection(state, payload) {
-      state.summaryCollectionData[state.currentlySelectedCollectionID].summaries.push(payload);
+      state.summaryCollectionData[state.currentlySelectedCollectionID].summaries.unshift(payload);
+      // Add summary to database
+      db.runTransaction(t => {
+        const ref = db.collection('summaries').doc(state.summaryCollectionData[state.currentlySelectedCollectionID].id);
+        console.log(ref);
+        return t.get(ref).then(doc => {
+          const arrayData = doc.data()['summaries'];
+          // Mutate array data
+          arrayData.unshift(payload);
+          // re-add array to db
+          t.update(ref, {['summaries']: arrayData});
+        });
+      }).then(() => {
+        console.log('Added to collection');
+      }).catch((err) => {
+        console.error('Failed to add', err);
+      })
     },
     replaceSingleSummaryInCollection(state, payload) {
       
