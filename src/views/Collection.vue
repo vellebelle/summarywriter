@@ -124,10 +124,11 @@ export default {
     summaries() {
       let collection = this.$store.getters.getSummaryCollections;
       let collectionSummaries = collection[this.$store.getters.getCurrentlySelectedCollectionID].summaries;
-      return collectionSummaries.sort((a,b) => {
+      return collectionSummaries;
+      // return collectionSummaries.sort((a,b) => {
         
-        return (a.profile > b.profile ? 1 : -1);
-      });
+      //   return (a.profile > b.profile ? 1 : -1);
+      // });
     },
     isEditingSummary() {
       return this.$store.getters.isEditingSummary;

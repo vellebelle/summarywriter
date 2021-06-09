@@ -86,9 +86,29 @@ export default new Vuex.Store({
       ].summaries.splice(state.summaryBeingEditedIndex, 1, payload);
     },
     deleteSummaryFromCollection(state, payload) {
-      state.summaryCollectionData[
-        state.currentlySelectedCollectionID
-      ].summaries.splice(payload, 1);
+      state.summaryCollectionData[state.currentlySelectedCollectionID].summaries.splice(payload, 1);
+
+      db.runTransaction((t) => {
+        const ref = db
+          .collection("summaries")
+          .doc(
+            state.summaryCollectionData[state.currentlySelectedCollectionID].id
+          );
+        // console.log(ref);
+        return t.get(ref).then((doc) => {
+          const arrayData = doc.data()["summaries"];
+          // Mutate array data
+          arrayData.splice(payload, 1);
+          // re-add array to db
+          t.update(ref, { ["summaries"]: arrayData });
+        });
+      })
+        .then(() => {
+          console.log("Added to collection");
+        })
+        .catch((err) => {
+          console.error("Failed to add", err);
+        });
     },
     setIsEditingSummary(state, payload) {
       state.isEditingSummary = payload;
