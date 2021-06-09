@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import VuexPersist from "vuex-persist";
-import db from '@/firebase/init.js';
+import db from "@/firebase/init.js";
 // import testData from '../assets/summaryCollections';
 
 Vue.use(Vuex);
@@ -21,48 +21,69 @@ export default new Vuex.Store({
     currentlySelectedCollectionID: null,
     isEditingSummary: false,
     summaryBeingEdited: null,
-    summaryBeingEditedIndex: null
+    summaryBeingEditedIndex: null,
   },
   mutations: {
-    deleteCollection(state, collectionID) {
-      state.summaryCollectionData.splice(collectionID, 1);
+    deleteCollection(state, collectionIndex) {
+      
+      const collectionID = state.summaryCollectionData[collectionIndex].id;
+      // delete from store
+      state.summaryCollectionData.splice(collectionIndex, 1);
+      // delete from db
+       db.collection('summaries').doc(collectionID).delete().then(() => {
+         console.log('Collection was deleted');
+       }).catch((err) => {
+         console.error('There was an error deleting the document', err)
+       })
     },
     addNewCollection(state, payload) {
-      state.summaryCollectionData.unshift(payload);
+      state.summaryCollectionData.push(payload);
       // Create new collection in database
 
-      db.collection("summaries").doc(payload.id).set(payload)
-      .then(() => {
-        console.log('Document written');
-      }).catch((err) => {
-        console.error(err);
-      });
+      db.collection("summaries")
+        .doc(payload.id)
+        .set(payload)
+        .then(() => {
+          console.log("Document written");
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     },
     setCurrentlySelectedCollectionID(state, payload) {
       state.currentlySelectedCollectionID = payload;
     },
     addSingleSummaryToCollection(state, payload) {
-      state.summaryCollectionData[state.currentlySelectedCollectionID].summaries.unshift(payload);
+      state.summaryCollectionData[
+        state.currentlySelectedCollectionID
+      ].summaries.push(payload);
       // Add summary to database
-      db.runTransaction(t => {
-        const ref = db.collection('summaries').doc(state.summaryCollectionData[state.currentlySelectedCollectionID].id);
+      db.runTransaction((t) => {
+        const ref = db
+          .collection("summaries")
+          .doc(
+            state.summaryCollectionData[state.currentlySelectedCollectionID].id
+          );
         console.log(ref);
-        return t.get(ref).then(doc => {
-          const arrayData = doc.data()['summaries'];
+        return t.get(ref).then((doc) => {
+          const arrayData = doc.data()["summaries"];
           // Mutate array data
-          arrayData.unshift(payload);
+          arrayData.push(payload);
           // re-add array to db
-          t.update(ref, {['summaries']: arrayData});
+          t.update(ref, { ["summaries"]: arrayData });
         });
-      }).then(() => {
-        console.log('Added to collection');
-      }).catch((err) => {
-        console.error('Failed to add', err);
       })
+        .then(() => {
+          console.log("Added to collection");
+        })
+        .catch((err) => {
+          console.error("Failed to add", err);
+        });
     },
     replaceSingleSummaryInCollection(state, payload) {
-      
-      state.summaryCollectionData[state.currentlySelectedCollectionID].summaries.splice(state.summaryBeingEditedIndex, 1, payload);
+      state.summaryCollectionData[
+        state.currentlySelectedCollectionID
+      ].summaries.splice(state.summaryBeingEditedIndex, 1, payload);
     },
     deleteSummaryFromCollection(state, payload) {
       state.summaryCollectionData[
@@ -77,11 +98,11 @@ export default new Vuex.Store({
     },
     setSummaryBeingEditedIndex(state, summaryIndex) {
       state.summaryBeingEditedIndex = summaryIndex;
-    }
+    },
   },
   actions: {
-    deleteCollection(context, collectionID) {
-      context.commit("deleteCollection", collectionID);
+    deleteCollection(context, collectionIndex) {
+      context.commit("deleteCollection", collectionIndex);
     },
     addNewCollection(context, payload) {
       context.commit("addNewCollection", payload);
@@ -93,7 +114,7 @@ export default new Vuex.Store({
       context.commit("addSingleSummaryToCollection", payload);
     },
     replaceSingleSummaryInCollection(context, payload) {
-      context.commit('replaceSingleSummaryInCollection', payload);
+      context.commit("replaceSingleSummaryInCollection", payload);
     },
     deleteSummaryFromCollection(context, payload) {
       context.commit("deleteSummaryFromCollection", payload);
@@ -105,8 +126,8 @@ export default new Vuex.Store({
       context.commit("setSummaryBeingEdited", summary);
     },
     setSummaryBeingEditedIndex(context, summaryIndex) {
-      context.commit('setSummaryBeingEditedIndex', summaryIndex);
-    }
+      context.commit("setSummaryBeingEditedIndex", summaryIndex);
+    },
   },
   getters: {
     getSummaryCollections(state) {
@@ -125,13 +146,13 @@ export default new Vuex.Store({
       return state.summaryBeingEditedIndex;
     },
     getCurrentCollectionTitle(state) {
-      if (state.summaryCollectionData[state.currentlySelectedCollectionID].title) {
+      if( state.summaryCollectionData.length) {
         return state.summaryCollectionData[state.currentlySelectedCollectionID].title;
       } else {
-        return 'ddd';
+        return '';
       }
       
-    }
+    },
   },
   plugins: [vuexPersist.plugin],
 });

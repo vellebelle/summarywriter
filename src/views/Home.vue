@@ -1,14 +1,15 @@
 <template>
   <v-container>
-
-<v-btn @click="getFirestoreData">Test DB</v-btn>
-    <v-row>
-      <v-col v-if="!summaryCollections.length">
+    <!-- <v-btn @click="getFirestoreData">Test DB</v-btn> -->
+    <v-row v-if="!summaryCollections.length">
+      <v-col>
         <h2 class="h2 text-center">Der er ingen summary collections</h2>
         <p class="h3 text-center">
           Tilføj en ny samling ved at klikke på det røde plus
         </p>
       </v-col>
+    </v-row>
+    <v-row v-if="summaryCollections.length">
       <v-col
         v-for="(collection, index) in summaryCollections"
         :key="collection.title"
@@ -36,7 +37,7 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-btn @click="addTestData">Add test data</v-btn>
+    <!-- <v-btn @click="addTestData">Add test data</v-btn> -->
 
     <Confirm ref="confirm"> </Confirm>
 
@@ -148,6 +149,8 @@ export default {
   },
   methods: {
     deleteCollection(index) {
+      this.$store.dispatch("setCurrentlySelectedCollectionID", index);
+
       this.$refs.confirm
         .open("Slet kollektion?", "Er du sikker? Der er ingen vej tilbage..", {
           color: "indigo",
@@ -251,12 +254,12 @@ export default {
       );
       saveAs(convertedSummariesDocument, collectionTitle);
     },
-    getFirestoreData() { 
-      let docRef = db.collection('collections');
-      docRef.get().then(doc => {
+    getFirestoreData() {
+      let docRef = db.collection("collections");
+      docRef.get().then((doc) => {
         console.log(doc);
       });
-    }
+    },
   },
   computed: {
     summaryCollections() {
