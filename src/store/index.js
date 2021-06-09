@@ -25,16 +25,19 @@ export default new Vuex.Store({
   },
   mutations: {
     deleteCollection(state, collectionIndex) {
-      
       const collectionID = state.summaryCollectionData[collectionIndex].id;
       // delete from store
       state.summaryCollectionData.splice(collectionIndex, 1);
       // delete from db
-       db.collection('summaries').doc(collectionID).delete().then(() => {
-         console.log('Collection was deleted');
-       }).catch((err) => {
-         console.error('There was an error deleting the document', err)
-       })
+      db.collection("summaries")
+        .doc(collectionID)
+        .delete()
+        .then(() => {
+          console.log("Collection was deleted");
+        })
+        .catch((err) => {
+          console.error("There was an error deleting the document", err);
+        });
     },
     addNewCollection(state, payload) {
       state.summaryCollectionData.push(payload);
@@ -84,9 +87,34 @@ export default new Vuex.Store({
       state.summaryCollectionData[
         state.currentlySelectedCollectionID
       ].summaries.splice(state.summaryBeingEditedIndex, 1, payload);
+
+      // Replace summary to database
+      db.runTransaction((t) => {
+        const ref = db
+          .collection("summaries")
+          .doc(
+            state.summaryCollectionData[state.currentlySelectedCollectionID].id
+          );
+        
+        return t.get(ref).then((doc) => {
+          const arrayData = doc.data()["summaries"];
+          // Mutate array data
+          arrayData.splice(state.summaryBeingEditedIndex, 1, payload);
+          // re-add array to db
+          t.update(ref, { ["summaries"]: arrayData });
+        });
+      })
+        .then(() => {
+          console.log("Added to collection");
+        })
+        .catch((err) => {
+          console.error("Failed to add", err);
+        });
     },
     deleteSummaryFromCollection(state, payload) {
-      state.summaryCollectionData[state.currentlySelectedCollectionID].summaries.splice(payload, 1);
+      state.summaryCollectionData[
+        state.currentlySelectedCollectionID
+      ].summaries.splice(payload, 1);
 
       db.runTransaction((t) => {
         const ref = db
@@ -166,12 +194,12 @@ export default new Vuex.Store({
       return state.summaryBeingEditedIndex;
     },
     getCurrentCollectionTitle(state) {
-      if( state.summaryCollectionData.length) {
-        return state.summaryCollectionData[state.currentlySelectedCollectionID].title;
+      if (state.summaryCollectionData.length) {
+        return state.summaryCollectionData[state.currentlySelectedCollectionID]
+          .title;
       } else {
-        return '';
+        return "";
       }
-      
     },
   },
   plugins: [vuexPersist.plugin],
