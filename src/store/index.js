@@ -147,6 +147,9 @@ export default new Vuex.Store({
     setSummaryBeingEditedIndex(state, summaryIndex) {
       state.summaryBeingEditedIndex = summaryIndex;
     },
+    setCollectionsFromDatabase(state, payload) {
+      state.summaryCollectionData = payload;
+    }
   },
   actions: {
     deleteCollection(context, collectionIndex) {
@@ -176,6 +179,9 @@ export default new Vuex.Store({
     setSummaryBeingEditedIndex(context, summaryIndex) {
       context.commit("setSummaryBeingEditedIndex", summaryIndex);
     },
+    setCollectionsFromDatabase(context, payload) {
+      context.commit("setCollectionsFromDatabase", payload);
+    }
   },
   getters: {
     getSummaryCollections(state) {

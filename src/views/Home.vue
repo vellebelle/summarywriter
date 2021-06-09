@@ -268,5 +268,16 @@ export default {
       return this.$store.getters.getSummaryCollections;
     },
   },
+  created() {
+    // const allCollections = [];
+    //  db.collection('summaries').get().then((querySnapshot) => {
+    //   querySnapshot.forEach((doc) => {
+    //     console.log(doc.data());
+    //     allCollections.push(doc.data());
+    //   });
+    // });
+    // this.$store.dispatch("setCollectionsFromDatabase", allCollections);
+    // console.log(collections);
+  }
 };
 </script>

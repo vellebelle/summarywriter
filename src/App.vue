@@ -10,14 +10,26 @@
 
 <script>
 import NavBar from "./components/NavBar.vue";
+// import db from "@/firebase/init";
 export default {
   name: "App",
   components: {
     NavBar,
   },
   data: () => ({
-    debounceFunc: null
+    debounceFunc: null,
   }),
+  created() {
+    // const allCollections = [];
+    // db.collection("summaries").onSnapshot((querySnapshot) => {
+    //   querySnapshot.forEach((doc) => {
+        
+    //     allCollections.push(doc.data());
+    //   });
+    //   this.$store.dispatch("setCollectionsFromDatabase", allCollections);
+    //   console.log("UPDATED", querySnapshot);
+    // });
+  },
   mounted() {
     this.debounceFunc = () => {
       clearTimeout(this.timeout);
