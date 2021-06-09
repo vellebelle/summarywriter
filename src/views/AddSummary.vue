@@ -72,7 +72,7 @@
           </v-col>
         </v-row>
         <v-btn @click="addSummary" depressed color="primary" class="mt-4"
-          >Tilføj Resumé</v-btn
+          >Gem</v-btn
         >
         <v-btn @click="cancel" depressed class="mt-4 ml-3">Fortryd</v-btn>
 
