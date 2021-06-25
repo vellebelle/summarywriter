@@ -273,7 +273,7 @@ export default {
       }
 
       let text = div.textContent || div.innerText || "";
-      text = text.replace(/\n/g, "");
+      text = text.replace(/\n/g, " ");
       //console.log(text);
 
       // Undo the paste
