@@ -233,6 +233,14 @@ export default {
         }
 
         let sources = this.sortSources(item.sources);
+        let sourceText = "";
+     
+        if (item.sources.length > 1) {
+          sourceText = "Kilder: ";
+        } else {
+          sourceText = "Kilde: ";
+        }
+
         console.log(item.profile);
         const textContent = item.summary
           .replaceAll("&nbsp;", "")
@@ -246,7 +254,7 @@ export default {
         ${item.profile === "3" && otherCounter === 1 ? otherStoriesStr : ""}
         <strong>${item.category}: ${
           item.title
-        }</strong>${textContent}<br><em>${sources}</em><br><br>`;
+        }</strong>${textContent}<br><em>${sourceText}${sources}</em><br><br>`;
         this.allSummaries += fullSummary;
       });
 
