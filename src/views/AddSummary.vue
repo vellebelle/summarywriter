@@ -182,6 +182,8 @@ export default {
       "kr.",
       "f.eks.",
       "ca.",
+      "adm.",
+      "Adm."
     ],
   }),
   methods: {
@@ -190,7 +192,7 @@ export default {
         this.sources.push({
           medium: this.selectedPaper,
           pageNumber: this.pageNumber,
-          day: this.selectedDay === "(Ingen)" ? null : this.selectedDay,
+          day: this.selectedDay === "(Ingen)" ? null : this.selectedDay.toLowerCase(),
         });
         // Reset values
         this.selectedDay = null;
@@ -273,13 +275,14 @@ export default {
       }
 
       let text = div.textContent || div.innerText || "";
-      text = text.replace(/\n/g, " ");
+      // Replace line breaks with space AND add missing space after full stop
+      text = text.replace(/\n/g, " ").replace(/\.(\S)/g, '. $1');
       //console.log(text);
 
       // Undo the paste
-      event.target.editor.undo();
+      this.editor.undo();
       // Insert text
-      event.target.editor.insertString(text);
+      this.editor.insertString(text);
     },
     highlightKeywords() {
       this.keywords.forEach((word) => {
@@ -300,6 +303,7 @@ export default {
       return text.replaceAll("<em>", "").replaceAll("</em>", "");
     },
     onTrixPaste(event) {
+      // Removed for now as it also removed spaces
       this.removeFormattingOnPaste(event);
     },
     onTrixChange(event) {
